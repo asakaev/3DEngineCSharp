@@ -2,13 +2,21 @@
 {
     class CoordsSystem
     {
-        public Point3D placeInWorld; // положение в мировой системе
-        public Point3D rotation; // вращение вокруг своей оси
+        public Vertex placeInWorld; // положение в мировой системе
+        public Vertex rotation; // вращение вокруг своей оси
+        double axesSize;
+        Vertex[] axes = new Vertex[3];
 
         public CoordsSystem()
         {
-            placeInWorld = new Point3D(0, 0, 0);
-            rotation = new Point3D(0, 0, 0);
+            placeInWorld = new Vertex(0, 0, 0);
+            rotation = new Vertex(0, 0, 0);
+            axesSize = 50;
+
+            // для рисования осей
+            axes[0] = new Vertex(axesSize,0,0);
+            axes[1] = new Vertex(0, axesSize, 0);
+            axes[2] = new Vertex(0, 0, axesSize);
         }
     }
 }

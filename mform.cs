@@ -8,40 +8,49 @@ namespace CubeApp
     public partial class mform : Form
     {
 
-        Render vmon; // рендер (виртуальный монитор)
+        Render render; // рендер (виртуальный монитор)
         Bitmap buff; // указатель на буфер изображения
         Timer timer = new Timer(); // таймер для анимации
-        Panel view; // панелька на которой выводим изображения
-        Background background; // оси координат и фон
         FPS fps; // считает и показывает фпс
-        //Cube fig = new Cube(300);
-        Cube cc = new Cube(250);
 
+        /*
+        Cube cc = new Cube(new Point3D(0, 0, 200), new Point3D(0, 200, 200), new Point3D(200, 200, 200), new Point3D(200, 0, 200),
+                        new Point3D(0, 0, 0), new Point3D(0, 200, 0), new Point3D(200, 200, 0), new Point3D(200, 0, 0));
+        */
 
-        Floor f = new Floor(200, 300);
+        Hexahedron cc = new Hexahedron(1,1,1, 200);
+        Hexahedron c2 = new Hexahedron(50, 50, 50, 1);
+
+        CRectangle r = new CRectangle(new Vertex(0, 0, 0),
+                        new Vertex(0, 150, 0),
+                        new Vertex(200, 150, 0),
+                        new Vertex(200, 0, 0));
+
+        Scene sc = new Scene();
 
         double mv = 0.4;
-
-
 
         public mform()
         {
             InitializeComponent();
             Text = Application.ProductName + " v" + Application.ProductVersion; // заголовок
             fps = new FPS(); // будет считать и показывать FPS
-            view = sp.Panel1;
 
-            vmon = new Render(view);
-            buff = vmon.GetBuffer();
-            background = new Background();
+            render = new Render(sp.Panel1);
+            buff = render.GetBuffer();
 
             timer.Interval = 15; // between 1 ms and 20 ms разброс т.к. не реалтайм
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Enabled = false;
+            timer.Enabled = true;
+
+            sc.AddObject(cc);
+            sc.AddObject(r);
+            sc.AddObject(c2);
 
             // начальные значения
-            Transform.RotateModel(f, 15, 0, 0);
-            Transform.MoveModel(f, 0, -250, 0);
+            Transform.MoveModel(r, -200, -100, 0);
+            Transform.MoveModel(c2, 200, 0, 0);
+            Transform.RotateModel(c2, 30, 30, 30);
 
             //CheckAspectRatio();
         }
@@ -57,116 +66,45 @@ namespace CubeApp
         }
 
         
-
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPiaint vs 65 FPS в Timer (no loop)
         {
-            background.DrawAxes(buff);
+            Draw.Background(buff);
             Transform.RotateModel(cc, 0.1, 0.1, 0.1);
             Transform.MoveModel(cc, 0,mv,0);
             if ((cc.cs.placeInWorld.y > 50) || (cc.cs.placeInWorld.y < 0)) { mv = mv * -1; }
-            Draw.Object3D(cc, buff);
-
-
-            Transform.RotateModel(f, 0, 0.3, 0);
-            Draw.Object3D(f, buff);
+            Transform.RotateModel(r, -0.1, -0.1, -0.1);
+            Draw.Scene(sc, buff);
 
             fps.Draw(buff);
-            vmon.BufferToPanel();
+            render.BufferToPanel();
             fps.SetFrameRendered();
-            buff = vmon.GetNewBuffSize();
+            buff = render.GetNewBuffSize();
         }
 
         //protected override void OnPaint(PaintEventArgs pea) { }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            // Делает недействительной конкретную область элемента управления
-            // и вызывает отправку сообщения изображения элементу управления.
-            //this.Invalidate();
-            //cube.TranXYZ(1.2, 1, 1);
-        }
-
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //this.Invalidate();
-            //cube.TranXYZ(0.8, 1, 1);
-        }
-
-        // ?
+ 
         private void formGraphics_Load(object sender, EventArgs e)
         {
-
+            // ?
         }
-
-        // ?
-        private void button7_Click(object sender, EventArgs e)
-        {
-            this.Invalidate();
-            //cube.Move(-15, 0, 0);
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            this.Invalidate();
-            //cube.Move(15, 0, 0);
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            this.Invalidate();
-            //cube.AngleChange(3, 3, 3);
-        }
-
-
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (timer.Enabled)
-            {
-                timer.Enabled = !(timer.Enabled);
-                button1.Text = "Run";
-            }
-            else
+            if (!timer.Enabled)
             {
                 timer.Enabled = !(timer.Enabled);
                 button1.Text = "Stop";
             }
-
-
+            else
+            {
+                timer.Enabled = !(timer.Enabled);
+                button1.Text = "Run";
+            }
         }
 
-        // ?
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
-
+            // ?
         }
-
-        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
-        {
-            //cube.RotationXYZ(hScrollBar1.Value / 100, 0, 0);
-            //cube.degreeX = 0;
-            //cube.AngleChange(hScrollBar1.Value,0,0);
-            background.DrawAxes(buff);
-            //cube.Draw(buff);
-            fps.Draw(buff);
-            vmon.BufferToPanel();
-            fps.SetFrameRendered();
-            buff = vmon.GetNewBuffSize();
-            //hScrollBar1.Value = (int)cube.degreeX;
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            //cube.degreeX = 0;
-            //cube.AngleChange(trackBar1.Value, 0, 0);
-            background.DrawAxes(buff);
-            //cube.Draw(buff);
-            fps.Draw(buff);
-            vmon.BufferToPanel();
-            fps.SetFrameRendered();
-            buff = vmon.GetNewBuffSize();
-        }
-
     }
 }

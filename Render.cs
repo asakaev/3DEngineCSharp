@@ -46,5 +46,10 @@ namespace CubeApp
             }
             return buffer;
         }
+
+        public Point GetCenter()
+        {
+            return new Point(w, h);
+        }
     }
 }

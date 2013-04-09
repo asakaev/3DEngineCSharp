@@ -2,11 +2,11 @@
 
 namespace CubeApp
 {
-    class Point3D // Координаты точки
+    class Vertex // Координаты точки
     {
         public double x, y, z; // математические координаты
 
-        public Point3D(double _x, double _y, double _z)
+        public Vertex(double _x, double _y, double _z)
         {
             x = _x;
             y = _y;

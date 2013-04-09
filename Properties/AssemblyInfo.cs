@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("tema")]
 [assembly: AssemblyProduct("CubeApp")]
-[assembly: AssemblyFileVersion("0.1")]
+[assembly: AssemblyFileVersion("0.2")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
