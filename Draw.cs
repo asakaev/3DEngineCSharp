@@ -44,7 +44,7 @@ namespace CubeApp
 
         private static void Object3D(Model obj, bool drawInfo, Bitmap image)
         {
-            for (int i = 0; i < obj.trisCount; i++)
+            for (int i = 0; i < obj.polyCount; i++)
             {
                 Draw.Triangle(obj.tris[i], obj.cs, image);
             }
@@ -73,7 +73,7 @@ namespace CubeApp
                 drawP = new PointF(0, 0); // cent + xc
                 drawS = "";
 
-                for (int i = 0; i < obj.pointsCount; i++)
+                for (int i = 0; i < obj.vtxCount; i++)
                 {
                     drawS = "";
                     drawP.X = xC + obj.cs.placeInWorld.GetIntX() + obj.points[i].GetIntX();
@@ -87,13 +87,16 @@ namespace CubeApp
 
         public static void Scene(Scene sc, Bitmap image)
         {
+            Background(image); // отрисовка фона
+            PolyPointsObjectsCount(sc, image); // инфа о сцене в углу
+
             for (int i = 0; i < sc.objectsCount; i++)
             {
                 Draw.Object3D(sc.objects[i], false, image);
             }
         }
 
-        public static void Background(Bitmap image)
+        private static void Background(Bitmap image)
         {
             int w = image.Width;
             int h = image.Height;
@@ -121,6 +124,20 @@ namespace CubeApp
             // Выполняет определяемые приложением задачи,
             // связанные с высвобождением или сбросом неуправляемых ресурсов.
             myPen.Dispose();
+            g.Dispose();
+        }
+
+        private static void PolyPointsObjectsCount(Scene sc, Bitmap image)
+        {
+            Graphics g = Graphics.FromImage(image);
+            Font drawFont = new Font("Arial", 7);
+            String drawString = "Polygons: " + Convert.ToString(sc.polyCount);
+            drawString += "\nPoints: " + Convert.ToString(sc.vtxCount);
+            drawString += "\nObjects: " + Convert.ToString(sc.objectsCount);
+            Color red = ColorTranslator.FromHtml("#d69d85");
+            SolidBrush drawBrush = new SolidBrush(red);
+            PointF drawPoint = new PointF(0, 21);
+            g.DrawString(drawString, drawFont, drawBrush, drawPoint);
             g.Dispose();
         }
     }

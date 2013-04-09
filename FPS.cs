@@ -37,7 +37,7 @@ namespace CubeApp
             String drawString = "FPS: " + Convert.ToString(fps);
             Color red = ColorTranslator.FromHtml("#d69d85");
             SolidBrush drawBrush = new SolidBrush(red);
-            PointF drawPoint = new PointF(0, 14);
+            PointF drawPoint = new PointF(0, 11);
             g.DrawString(drawString, drawFont, drawBrush, drawPoint);
             g.Dispose();
         }

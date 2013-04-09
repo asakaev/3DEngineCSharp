@@ -4,7 +4,7 @@ namespace CubeApp
 {
     class Transform
     {
-        private static void RotatePoint(Vertex p, double _x, double _y, double _z)
+        private static void RotateVertex(Vertex p, double _x, double _y, double _z)
         {
             double radX = (Math.PI * _x) / 180;
             double radY = (Math.PI * _y) / 180;
@@ -42,9 +42,9 @@ namespace CubeApp
             if ((obj.cs.rotation.y > 359) || (obj.cs.rotation.y < -359)) { obj.cs.rotation.y = obj.cs.rotation.y % 360; }
             if ((obj.cs.rotation.z > 359) || (obj.cs.rotation.z < -359)) { obj.cs.rotation.z = obj.cs.rotation.z % 360; }
 
-            for (int i = 0; i < obj.pointsCount; i++)
+            for (int i = 0; i < obj.vtxCount; i++)
             {
-                RotatePoint(obj.points[i], degX, degY, degZ);
+                RotateVertex(obj.points[i], degX, degY, degZ);
             }
         }
 

@@ -6,23 +6,23 @@ namespace CubeApp
     {
         public List<Vertex> points = new List<Vertex>(); // координаты вершин
         public List<Polygon> tris = new List<Polygon>();
-        public int pointsCount;
-        public int trisCount; // количество треугольников в объекте
+        public int vtxCount;
+        public int polyCount; // количество треугольников в объекте
 
         // положение в мире и угол поворота относительно своего центра
         public CoordsSystem cs = new CoordsSystem();
         static public int globalID; // будет раздавать id для треугольников внутри
 
-        public void AddPoint(double x, double y, double z)
+        public void AddVertex(double x, double y, double z)
         {
             points.Add(new Vertex(x, y, z));
-            pointsCount++;
+            vtxCount++;
         }
 
         public void AddPolygon(int a, int b, int c)
         {
             tris.Add(new Polygon(points, a, b, c, globalID++));
-            trisCount++;
+            polyCount++;
         }
     }
 }

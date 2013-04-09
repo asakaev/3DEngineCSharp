@@ -37,7 +37,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(903, 11);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(913, 59);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 11;
@@ -61,15 +62,15 @@
             // sp.Panel2
             // 
             this.sp.Panel2.Controls.Add(this.button1);
-            this.sp.Size = new System.Drawing.Size(1001, 676);
-            this.sp.SplitterDistance = 578;
+            this.sp.Size = new System.Drawing.Size(1000, 662);
+            this.sp.SplitterDistance = 564;
             this.sp.TabIndex = 12;
             // 
             // mform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1001, 676);
+            this.ClientSize = new System.Drawing.Size(1000, 662);
             this.Controls.Add(this.sp);
             this.Name = "mform";
             this.Text = "Form1";

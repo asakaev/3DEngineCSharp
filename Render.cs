@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace CubeApp
@@ -12,6 +11,7 @@ namespace CubeApp
         private int h;
         private int xC;
         private int yC;
+        private FPS fps = new FPS(); // считает и показывает фпс
 
         public Render(Panel sur)
         {
@@ -23,16 +23,16 @@ namespace CubeApp
             buffer = new Bitmap(w, h);
         }
 
-        public Bitmap GetBuffer() { return buffer; }
-
         public void BufferToPanel() // Выводит сформированный кадр на панель
         {
             Graphics g = pan.CreateGraphics();
+            fps.Draw(buffer);
             g.DrawImage(buffer, 0, 0, new Rectangle(0, 0, w, h), GraphicsUnit.Pixel);
+            fps.SetFrameRendered();
             g.Dispose();
         }
 
-        public Bitmap GetNewBuffSize()
+        public Bitmap GetBuffer()
         {
             // отслеживаем изменение размера формы (событие сделать как?)
             if ((w != pan.ClientSize.Width) || (h != pan.ClientSize.Height))
@@ -45,11 +45,6 @@ namespace CubeApp
                 temp.Dispose();
             }
             return buffer;
-        }
-
-        public Point GetCenter()
-        {
-            return new Point(w, h);
         }
     }
 }
