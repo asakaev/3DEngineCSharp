@@ -4,7 +4,7 @@ namespace CubeApp
 {
     class Scene
     {
-        public List<Object3D> objects = new List<Object3D>();
+        public List<Model> objects = new List<Model>();
         public int objectsCount;
         public CoordsSystem cs = new CoordsSystem();
 
@@ -13,7 +13,7 @@ namespace CubeApp
             objectsCount = 0;
         }
 
-        public void AddObject(Object3D obj)
+        public void AddObject(Model obj)
         {
             objects.Add(obj);
             objectsCount++;

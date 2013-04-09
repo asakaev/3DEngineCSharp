@@ -1,4 +1,5 @@
-﻿namespace CubeApp
+﻿using System.Collections.Generic;
+namespace CubeApp
 {
     // Triangle (faces, грани)
     class Polygon
@@ -6,11 +7,11 @@
         public Vertex[] tri = new Vertex[3];
         public int id;
 
-        public Polygon(Vertex a, Vertex b, Vertex c, int _id)
+        public Polygon(List<Vertex> points, int a, int b, int c, int _id)
         {
-            tri[0] = a; // указатели на вершины
-            tri[1] = b;
-            tri[2] = c;
+            tri[0] = points[a-1]; // указатели на вершины
+            tri[1] = points[b-1];
+            tri[2] = points[c-1];
             id = _id;
         }
     }

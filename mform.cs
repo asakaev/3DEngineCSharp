@@ -13,21 +13,8 @@ namespace CubeApp
         Timer timer = new Timer(); // таймер для анимации
         FPS fps; // считает и показывает фпс
 
-        /*
-        Cube cc = new Cube(new Point3D(0, 0, 200), new Point3D(0, 200, 200), new Point3D(200, 200, 200), new Point3D(200, 0, 200),
-                        new Point3D(0, 0, 0), new Point3D(0, 200, 0), new Point3D(200, 200, 0), new Point3D(200, 0, 0));
-        */
-
-        Hexahedron cc = new Hexahedron(1,1,1, 200);
-        Hexahedron c2 = new Hexahedron(50, 50, 50, 1);
-
-        CRectangle r = new CRectangle(new Vertex(0, 0, 0),
-                        new Vertex(0, 150, 0),
-                        new Vertex(200, 150, 0),
-                        new Vertex(200, 0, 0));
-
+        Model m = ObjLoader.Load("C:\\teapot.txt", 100);
         Scene sc = new Scene();
-
         double mv = 0.4;
 
         public mform()
@@ -43,15 +30,11 @@ namespace CubeApp
             timer.Tick += new EventHandler(timer_Tick);
             timer.Enabled = true;
 
-            sc.AddObject(cc);
-            sc.AddObject(r);
-            sc.AddObject(c2);
+            sc.AddObject(m);
 
             // начальные значения
-            Transform.MoveModel(r, -200, -100, 0);
-            Transform.MoveModel(c2, 200, 0, 0);
-            Transform.RotateModel(c2, 30, 30, 30);
-
+            Transform.MoveModel(m, 0, -150, 0);
+            //Transform.RotateModel(m, 30, 30, 30);
             //CheckAspectRatio();
         }
 
@@ -69,10 +52,9 @@ namespace CubeApp
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPiaint vs 65 FPS в Timer (no loop)
         {
             Draw.Background(buff);
-            Transform.RotateModel(cc, 0.1, 0.1, 0.1);
-            Transform.MoveModel(cc, 0,mv,0);
-            if ((cc.cs.placeInWorld.y > 50) || (cc.cs.placeInWorld.y < 0)) { mv = mv * -1; }
-            Transform.RotateModel(r, -0.1, -0.1, -0.1);
+            Transform.RotateModel(m, 0.1, 0.1, 0.1);
+            Transform.MoveModel(m, 0,mv,0);
+            if ((m.cs.placeInWorld.y > 50) || (m.cs.placeInWorld.y < 0)) { mv = mv * -1; }
             Draw.Scene(sc, buff);
 
             fps.Draw(buff);

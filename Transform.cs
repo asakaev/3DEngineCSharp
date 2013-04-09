@@ -30,9 +30,10 @@ namespace CubeApp
             p.y = (x * Math.Sin(radZ)) + (y * Math.Cos(radZ));
         }
 
-        public static void RotateModel(Object3D obj, double degX, double degY, double degZ)
+        public static void RotateModel(Model obj, double degX, double degY, double degZ)
         {
             // накапливаем угол поворота объекта относительно своего центра
+            // просто информация в объекте
             obj.cs.rotation.x += degX;
             obj.cs.rotation.y += degY;
             obj.cs.rotation.z += degZ;
@@ -41,16 +42,13 @@ namespace CubeApp
             if ((obj.cs.rotation.y > 359) || (obj.cs.rotation.y < -359)) { obj.cs.rotation.y = obj.cs.rotation.y % 360; }
             if ((obj.cs.rotation.z > 359) || (obj.cs.rotation.z < -359)) { obj.cs.rotation.z = obj.cs.rotation.z % 360; }
 
-            obj.ResetEditedPoints(); // сбрасывает все трансформации точек
-
             for (int i = 0; i < obj.pointsCount; i++)
             {
-                RotatePoint(obj.pointsEdited[i], obj.cs.rotation.x, obj.cs.rotation.y, obj.cs.rotation.z);
+                RotatePoint(obj.points[i], degX, degY, degZ);
             }
-
         }
 
-        public static void MoveModel(Object3D obj, double movX, double movY, double movZ)
+        public static void MoveModel(Model obj, double movX, double movY, double movZ)
         {
             obj.cs.placeInWorld.x = obj.cs.placeInWorld.x + movX;
             obj.cs.placeInWorld.y = obj.cs.placeInWorld.y + movY;
