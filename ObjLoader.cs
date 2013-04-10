@@ -8,12 +8,14 @@ namespace CubeApp
 {
     class ObjLoader
     {
-        public static Model Load(string path, double scale) // путь и масштабирование
+        public static Model Load(string fname, double scale) // путь и масштабирование
         {
             Model obj = new Model();
             // Для распознования точки точкой, а не запятой
             NumberFormatInfo provider = new NumberFormatInfo();
             provider.NumberDecimalSeparator = ".";
+
+            string path = GetDirectory() + fname;
 
             foreach (string line in File.ReadLines(@path))
             {
@@ -43,6 +45,18 @@ namespace CubeApp
                 }
             }
             return obj;
+        }
+
+        private static string GetDirectory() // получаем путь к .OBJ моделям
+        {
+            string path = Directory.GetCurrentDirectory();
+            var s = path.Split('\\');
+            path = "";
+            for (int i = 0; i < s.Length - 2; i++)
+            {
+                path += s[i] + '\\';
+            }
+            return path += "models\\";
         }
     }
 }

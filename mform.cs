@@ -1,6 +1,7 @@
 ﻿using CubeApp;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace CubeApp
@@ -9,8 +10,10 @@ namespace CubeApp
     {
         Render render; // рендер (виртуальный монитор)
         Timer timer = new Timer(); // таймер для анимации
-        Model ak47 = ObjLoader.Load("C:\\ak47.txt", 150);
-        Model cube = ObjLoader.Load("C:\\cube.txt", 20);
+
+
+        Model ak47 = ObjLoader.Load("ak47.obj", 150);
+        Model cube = ObjLoader.Load("cube.obj", 20);
         Scene sc = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
 
