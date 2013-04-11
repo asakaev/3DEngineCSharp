@@ -5,7 +5,6 @@ namespace CubeApp
     class Scene
     {
         public List<Model> objects = new List<Model>();
-        public CoordsSystem cs = new CoordsSystem();
         public int objectsCount;
         public int polyCount;
         public int vtxCount;

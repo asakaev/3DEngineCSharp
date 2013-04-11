@@ -44,6 +44,7 @@ namespace CubeApp
                             obj.AddPolygon(a, b, c);
                         }
                     }
+                    obj.name = fname.Split('.')[0]; // записываем имя модели
                 }
                 return obj;
             }

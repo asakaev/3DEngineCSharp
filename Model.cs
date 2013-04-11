@@ -8,10 +8,8 @@ namespace CubeApp
         public List<Polygon> tris = new List<Polygon>();
         public int vtxCount;
         public int polyCount; // количество треугольников в объекте
-
-        // положение в мире и угол поворота относительно своего центра
-        public CoordsSystem cs = new CoordsSystem();
-        static public int globalID; // будет раздавать id для треугольников внутри
+        public Vertex placeInWorld = new Vertex(0, 0, 0);
+        public string name;
 
         public void AddVertex(double x, double y, double z)
         {
@@ -21,7 +19,7 @@ namespace CubeApp
 
         public void AddPolygon(int a, int b, int c)
         {
-            tris.Add(new Polygon(points, a, b, c, globalID++));
+            tris.Add(new Polygon(points, a, b, c));
             polyCount++;
         }
     }
