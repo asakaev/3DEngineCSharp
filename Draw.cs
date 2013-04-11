@@ -9,7 +9,17 @@ namespace CubeApp
         private static void Triangle(Polygon t, CoordsSystem cs, Bitmap image)
         {
             Graphics g = Graphics.FromImage(image);
-            Color green = ColorTranslator.FromHtml("#4ec9b0"); // green
+            Color green;
+
+            if (true) // рисовать нормальным цветом
+            {
+                green = ColorTranslator.FromHtml("#4ec9b0"); // green
+            }
+            else // искусство
+            {
+                Random rnd = new Random();
+                green = Color.FromArgb(rnd.Next(255), rnd.Next(255), rnd.Next(255));
+            }
             Pen myPen = new Pen(green);
 
             // Центр дисплея

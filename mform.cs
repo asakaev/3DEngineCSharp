@@ -1,7 +1,6 @@
 ﻿using CubeApp;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace CubeApp
@@ -10,10 +9,8 @@ namespace CubeApp
     {
         Render render; // рендер (виртуальный монитор)
         Timer timer = new Timer(); // таймер для анимации
-
-
-        Model ak47 = ObjLoader.Load("ak47.obj", 150);
-        Model cube = ObjLoader.Load("cube.obj", 20);
+        Model o1 = ObjLoader.Load("ak47.obj", 180);
+        Model o2 = ObjLoader.Load("cube.obj", 20);
         Scene sc = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
 
@@ -27,20 +24,20 @@ namespace CubeApp
             timer.Enabled = true;
 
             // добавляем модели и их начальные значения
-            sc.AddObject(ak47);
-            sc.AddObject(cube);
-            Transform.MoveModel(ak47, 0, 0, 0);
-            Transform.RotateModel(ak47, 0, 0, -20);
-            Transform.MoveModel(cube, 430, 230, 0);
-            Transform.RotateModel(cube, 20, 0, 0);
+            sc.AddObject(o1);
+            sc.AddObject(o2);
+            Transform.MoveModel(o1, 0, 0, 0);
+            Transform.RotateModel(o1, 0, 0, -20);
+            Transform.MoveModel(o2, 430, 230, 0);
+            Transform.RotateModel(o2, 20, 0, 0);
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPiaint vs 65 FPS в Timer (no loop)
         {
-            Transform.RotateModel(ak47, 0, 0.2, 0);
-            Transform.RotateModel(cube, 0, 3, 0);
-            Transform.MoveModel(ak47, 0,mv,0);
-            if ((ak47.cs.placeInWorld.y > 50) || (ak47.cs.placeInWorld.y < 0)) { mv *= -1; }
+            Transform.RotateModel(o1, 0, 0.2, 0);
+            Transform.RotateModel(o2, 0, 3, 0);
+            Transform.MoveModel(o1, 0,mv,0);
+            if ((o1.cs.placeInWorld.y > 50) || (o1.cs.placeInWorld.y < 0)) { mv *= -1; }
             Draw.Scene(sc, render.GetBuffer());  
             render.BufferToPanel();
         }
