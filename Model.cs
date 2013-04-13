@@ -10,6 +10,7 @@ namespace Scene3D
         public int polyCount; // количество треугольников в объекте
         public Vertex placeInWorld = new Vertex(0, 0, 0);
         public string name;
+        public bool active;
 
         public void AddVertex(double x, double y, double z)
         {

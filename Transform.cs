@@ -65,10 +65,6 @@ namespace Scene3D
                     MoveModel(sc.objects[i], x, y, z);
                 }
             }
-            //sc.cs.placeInWorld.x += x;
-            //sc.cs.placeInWorld.y += y;
-            //sc.cs.placeInWorld.z += z;
-
         }
 
         static private void ModelScale(Model m, double scale)
@@ -92,7 +88,5 @@ namespace Scene3D
 
             }
         }
-
-
     }
 }

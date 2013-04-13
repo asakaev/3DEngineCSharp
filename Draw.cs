@@ -8,26 +8,22 @@ namespace Scene3D
     {
         static public Random rnd = new Random();
 
-        private static void Triangle(Polygon t, Vertex placeInWorld, Bitmap image)
+        public static void Triangle(Polygon t, Vertex placeInWorld, Bitmap image, Color color)
         {
             Graphics g = Graphics.FromImage(image);
-            Color green;
 
-            if (true) // рисовать нормальным цветом
+            if (false) // делать искусство
             {
-                green = ColorTranslator.FromHtml("#4ec9b0"); // green
+                color = Color.FromArgb(rnd.Next(255), rnd.Next(255), rnd.Next(255));
             }
-            else // искусство
-            { 
-                green = Color.FromArgb(rnd.Next(255), rnd.Next(255), rnd.Next(255));
-            }
-            Pen myPen = new Pen(green);
+
+            Pen myPen = new Pen(color);
 
             // Центр дисплея
             int xC = image.Width / 2;
             int yC = image.Height / 2;
 
-            myPen.Color = green;
+            myPen.Color = color;
             int x1, y1, x2, y2;
 
             // перенос учитывая мировую систему и центр дисплея
@@ -53,26 +49,7 @@ namespace Scene3D
             g.Dispose();
         }
 
-        private static void Object3D(Model obj, Bitmap image)
-        {
-            for (int i = 0; i < obj.polyCount; i++)
-            {
-                Draw.Triangle(obj.tris[i], obj.placeInWorld, image);
-            }
-        }
-
-        public static void Scene(Scene sc, Bitmap image)
-        {
-            Background(image); // отрисовка фона
-            PolyPointsObjectsCount(sc, image); // инфа о сцене в углу
-
-            for (int i = 0; i < sc.objectsCount; i++)
-            {
-                Draw.Object3D(sc.objects[i], image);
-            }
-        }
-
-        private static void Background(Bitmap image)
+        public static void Background(Bitmap image)
         {
             int w = image.Width;
             int h = image.Height;
@@ -96,7 +73,7 @@ namespace Scene3D
             g.Dispose();
         }
 
-        private static void PolyPointsObjectsCount(Scene sc, Bitmap image)
+        public static void PolyPointsObjectsCount(Scene sc, Bitmap image)
         {
             Graphics g = Graphics.FromImage(image);
             Font drawFont = new Font("Arial", 7);

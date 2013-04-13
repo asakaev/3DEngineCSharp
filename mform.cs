@@ -9,7 +9,7 @@ namespace Scene3D
     {
         Render render; // рендер (виртуальный монитор)
         Timer timer = new Timer(); // таймер для анимации
-        Scene sc = new Scene();
+        Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
 
         // для поворотов
@@ -28,49 +28,49 @@ namespace Scene3D
 
             // добавляем модели и их начальные значения
             ufo = ObjLoader.Load("ufo.obj", 2);
-            sc.AddObject(ufo);
+            scene.AddObject(ufo);
             Transform.MoveModel(ufo, 0, 50, 0);
 
             Model rassv = ObjLoader.Load("Rassv.obj", 75/4.5);
-            sc.AddObject(rassv);
+            scene.AddObject(rassv);
             Transform.MoveModel(rassv, 0, 0, 100); // в метрах
 
             Model liga = ObjLoader.Load("liga.obj", 50 / 18);
-            sc.AddObject(liga);
+            scene.AddObject(liga);
             Transform.MoveModel(liga, 95, 0, 100);
 
             Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
-            sc.AddObject(mir);
+            scene.AddObject(mir);
             Transform.MoveModel(mir, 150, 0, 100);
 
             Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
-            sc.AddObject(ammo);
+            scene.AddObject(ammo);
             Transform.MoveModel(ammo, 178, 0, -110);
             Transform.RotateModel(ammo, 0, 54, 0);
 
             Model busStop1 = ObjLoader.Load("ost.obj", 15);
-            sc.AddObject(busStop1);
+            scene.AddObject(busStop1);
             Transform.MoveModel(busStop1, 50, 0, -30);
 
             Model busStop2 = ObjLoader.Load("ost.obj", 15);
-            sc.AddObject(busStop2);
+            scene.AddObject(busStop2);
             Transform.MoveModel(busStop2, 110, 0, 80);
             Transform.RotateModel(busStop2, 0, 180, 0);
 
             Model obraz = ObjLoader.Load("obr.obj", 55/4);
-            sc.AddObject(obraz);
+            scene.AddObject(obraz);
             Transform.MoveModel(obraz, -140, 0, 76);
 
             Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
-            sc.AddObject(gogol);
+            scene.AddObject(gogol);
             Transform.MoveModel(gogol, -200, 0, -155);
 
             Model tree = ObjLoader.Load("Tree.obj", 2);
-            sc.AddObject(tree);
+            scene.AddObject(tree);
             Transform.MoveModel(tree, -20, 0, -40);
 
-            Transform.RotateScene(sc, -90, 0, 0); // - по Х двигает ВНИЗ!
-            Transform.SceneScale(sc, 0.5);
+            Transform.RotateScene(scene, -90, 0, 0); // - по Х двигает ВНИЗ!
+            Transform.SceneScale(scene, 0.5);
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
@@ -79,8 +79,8 @@ namespace Scene3D
             Transform.MoveModel(ufo, 0, mv, 0);
             if ((ufo.placeInWorld.y > 50) || (ufo.placeInWorld.y < 0)) { mv *= -1; }
 
-            Transform.RotateScene(sc, x, y, 0);
-            Draw.Scene(sc, render.GetBuffer());  
+            Transform.RotateScene(scene, x, y, 0);
+            scene.DrawScene(render.GetBuffer());  
             render.BufferToPanel();
         }
 
@@ -112,32 +112,37 @@ namespace Scene3D
 
         private void up_Click(object sender, EventArgs e)
         {
-            Transform.MoveScene(sc, 0, 10, 0);
+            Transform.MoveScene(scene, 0, 10, 0);
         }
 
         private void down_Click(object sender, EventArgs e)
         {
-            Transform.MoveScene(sc, 0, -10, 0);
+            Transform.MoveScene(scene, 0, -10, 0);
         }
 
         private void left_Click(object sender, EventArgs e)
         {
-            Transform.MoveScene(sc, -10, 0, 0);
+            Transform.MoveScene(scene, -10, 0, 0);
         }
 
         private void right_Click(object sender, EventArgs e)
         {
-            Transform.MoveScene(sc, 10, 0, 0);
+            Transform.MoveScene(scene, 10, 0, 0);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Transform.SceneScale(sc, 1.1);
+            Transform.SceneScale(scene, 1.1);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Transform.SceneScale(sc, 0.9);
+            Transform.SceneScale(scene, 0.9);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            scene.ActivateNext();
         }
     }
 }

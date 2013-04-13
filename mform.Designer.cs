@@ -42,6 +42,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.barX = new System.Windows.Forms.TrackBar();
             this.barZ = new System.Windows.Forms.TrackBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sp)).BeginInit();
             this.sp.Panel2.SuspendLayout();
             this.sp.SuspendLayout();
@@ -71,6 +74,9 @@
             // 
             // sp.Panel2
             // 
+            this.sp.Panel2.Controls.Add(this.button4);
+            this.sp.Panel2.Controls.Add(this.label6);
+            this.sp.Panel2.Controls.Add(this.label5);
             this.sp.Panel2.Controls.Add(this.button3);
             this.sp.Panel2.Controls.Add(this.button2);
             this.sp.Panel2.Controls.Add(this.right);
@@ -90,11 +96,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(432, 9);
+            this.button3.Location = new System.Drawing.Point(432, 7);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(87, 23);
             this.button3.TabIndex = 23;
-            this.button3.Text = "Zoom In";
+            this.button3.Text = "Enlarge";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -102,56 +108,56 @@
             // 
             this.button2.Location = new System.Drawing.Point(432, 36);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(87, 23);
             this.button2.TabIndex = 22;
-            this.button2.Text = "Zoom Out";
+            this.button2.Text = "Reduce";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(325, 34);
+            this.right.Location = new System.Drawing.Point(387, 34);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(25, 25);
             this.right.TabIndex = 21;
-            this.right.Text = "<";
+            this.right.Text = ">";
             this.right.UseVisualStyleBackColor = true;
             this.right.Click += new System.EventHandler(this.right_Click);
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(387, 34);
+            this.left.Location = new System.Drawing.Point(325, 34);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(25, 25);
             this.left.TabIndex = 20;
-            this.left.Text = ">";
+            this.left.Text = "<";
             this.left.UseVisualStyleBackColor = true;
             this.left.Click += new System.EventHandler(this.left_Click);
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(356, 7);
+            this.down.Location = new System.Drawing.Point(356, 34);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(25, 25);
             this.down.TabIndex = 19;
-            this.down.Text = "^";
+            this.down.Text = "†";
             this.down.UseVisualStyleBackColor = true;
             this.down.Click += new System.EventHandler(this.down_Click);
             // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(356, 34);
+            this.up.Location = new System.Drawing.Point(356, 7);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(25, 25);
             this.up.TabIndex = 18;
-            this.up.Text = "†";
+            this.up.Text = "^";
             this.up.UseVisualStyleBackColor = true;
             this.up.Click += new System.EventHandler(this.up_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(265, 46);
+            this.label4.Location = new System.Drawing.Point(265, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 17;
@@ -160,7 +166,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(265, 13);
+            this.label3.Location = new System.Drawing.Point(265, 56);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 16;
@@ -169,7 +175,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 46);
+            this.label2.Location = new System.Drawing.Point(12, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 15;
@@ -178,7 +184,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 3);
+            this.label1.Location = new System.Drawing.Point(12, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 14;
@@ -187,7 +193,7 @@
             // barX
             // 
             this.barX.LargeChange = 1;
-            this.barX.Location = new System.Drawing.Point(53, 46);
+            this.barX.Location = new System.Drawing.Point(53, 0);
             this.barX.Maximum = 8;
             this.barX.Minimum = -8;
             this.barX.Name = "barX";
@@ -198,13 +204,41 @@
             // barZ
             // 
             this.barZ.LargeChange = 1;
-            this.barZ.Location = new System.Drawing.Point(53, 3);
+            this.barZ.Location = new System.Drawing.Point(53, 46);
             this.barZ.Maximum = 8;
             this.barZ.Minimum = -8;
             this.barZ.Name = "barZ";
             this.barZ.Size = new System.Drawing.Size(206, 45);
             this.barZ.TabIndex = 12;
             this.barZ.Scroll += new System.EventHandler(this.barZ_Scroll);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(334, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Move Scene";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(431, 69);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Scene Transform";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(551, 36);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 26;
+            this.button4.Text = "Select Next";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // mform
             // 
@@ -240,6 +274,9 @@
         private System.Windows.Forms.Button up;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button4;
 
     }
 }
