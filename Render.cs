@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace CubeApp
+namespace Scene3D
 {
     class Render
     {

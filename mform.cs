@@ -1,22 +1,21 @@
-﻿using CubeApp;
+﻿using Scene3D;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CubeApp
+namespace Scene3D
 {
     public partial class mform : Form
     {
         Render render; // рендер (виртуальный монитор)
         Timer timer = new Timer(); // таймер для анимации
-        Model o1 = ObjLoader.Load("cube.obj", 10);
-        Model o2 = ObjLoader.Load("ammofos.obj", 3);
-        Model o3 = ObjLoader.Load("coordsXYZ.obj", 200);
         Scene sc = new Scene();
+        double mv = 0.4; // для плавающего движения вверх-вниз
 
         // для поворотов
-        double z;
+        double y;
         double x;
+        Model ufo;
 
         public mform()
         {
@@ -28,27 +27,59 @@ namespace CubeApp
             timer.Enabled = true;
 
             // добавляем модели и их начальные значения
-            sc.AddObject(o1);
-            sc.AddObject(o2);
-            sc.AddObject(o3);
+            ufo = ObjLoader.Load("ufo.obj", 2);
+            sc.AddObject(ufo);
+            Transform.MoveModel(ufo, 0, 50, 0);
 
-            Transform.MoveModel(o1, 250, 0, 0);
-            Transform.RotateModel(o1, 15, 0, 0);
-            Transform.MoveModel(o2, 0, 100, 0);
-            Transform.RotateModel(o2, -20, 0, 0);
-            //Transform.MoveScene(sc, 0, -200, 0);
+            Model rassv = ObjLoader.Load("Rassv.obj", 75/4.5);
+            sc.AddObject(rassv);
+            Transform.MoveModel(rassv, 0, 0, 100); // в метрах
+
+            Model liga = ObjLoader.Load("liga.obj", 50 / 18);
+            sc.AddObject(liga);
+            Transform.MoveModel(liga, 95, 0, 100);
+
+            Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
+            sc.AddObject(mir);
+            Transform.MoveModel(mir, 150, 0, 100);
+
+            Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
+            sc.AddObject(ammo);
+            Transform.MoveModel(ammo, 178, 0, -110);
+            Transform.RotateModel(ammo, 0, 54, 0);
+
+            Model busStop1 = ObjLoader.Load("ost.obj", 15);
+            sc.AddObject(busStop1);
+            Transform.MoveModel(busStop1, 50, 0, -30);
+
+            Model busStop2 = ObjLoader.Load("ost.obj", 15);
+            sc.AddObject(busStop2);
+            Transform.MoveModel(busStop2, 110, 0, 80);
+            Transform.RotateModel(busStop2, 0, 180, 0);
+
+            Model obraz = ObjLoader.Load("obr.obj", 55/4);
+            sc.AddObject(obraz);
+            Transform.MoveModel(obraz, -140, 0, 76);
+
+            Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
+            sc.AddObject(gogol);
+            Transform.MoveModel(gogol, -200, 0, -155);
+
+            Model tree = ObjLoader.Load("Tree.obj", 2);
+            sc.AddObject(tree);
+            Transform.MoveModel(tree, -20, 0, -40);
+
+            Transform.RotateScene(sc, -90, 0, 0); // - по Х двигает ВНИЗ!
+            Transform.SceneScale(sc, 0.5);
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
         {
-            Transform.RotateModel(o1, 0, 10, 0);
-            Transform.RotateModel(o2, 0, -2, 0);
-            //Transform.MoveModel(o1, 0,mv,0);
+            Transform.RotateModel(ufo, 0.1, 0.1, 0.1);
+            Transform.MoveModel(ufo, 0, mv, 0);
+            if ((ufo.placeInWorld.y > 50) || (ufo.placeInWorld.y < 0)) { mv *= -1; }
 
-            Transform.RotateScene(sc, x, z, 0);
-            label3.Text = Convert.ToString(z) + "     ";
-            label4.Text = Convert.ToString(x) + "     ";
-
+            Transform.RotateScene(sc, x, y, 0);
             Draw.Scene(sc, render.GetBuffer());  
             render.BufferToPanel();
         }
@@ -69,12 +100,14 @@ namespace CubeApp
 
         private void barZ_Scroll(object sender, EventArgs e)
         {
-            z = (double)barZ.Value / 4;
+            y = (double)barZ.Value / 4;
+            label3.Text = Convert.ToString(y) + "     ";
         }
 
         private void barX_Scroll(object sender, EventArgs e)
         {
             x = (double)barX.Value / 4;
+            label4.Text = Convert.ToString(x) + "     ";
         }
 
         private void up_Click(object sender, EventArgs e)
@@ -95,6 +128,16 @@ namespace CubeApp
         private void right_Click(object sender, EventArgs e)
         {
             Transform.MoveScene(sc, 10, 0, 0);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Transform.SceneScale(sc, 1.1);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Transform.SceneScale(sc, 0.9);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CubeApp
+namespace Scene3D
 {
     class Vertex // Координаты точки
     {

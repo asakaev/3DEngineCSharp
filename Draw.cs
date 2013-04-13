@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Text;
 
-namespace CubeApp
+namespace Scene3D
 {
     class Draw
     {
@@ -13,7 +13,7 @@ namespace CubeApp
             Graphics g = Graphics.FromImage(image);
             Color green;
 
-            if (false) // рисовать нормальным цветом
+            if (true) // рисовать нормальным цветом
             {
                 green = ColorTranslator.FromHtml("#4ec9b0"); // green
             }

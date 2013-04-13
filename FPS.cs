@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 
-namespace CubeApp
+namespace Scene3D
 {
     class FPS // считает количество отрисованных кадров в сек
     {

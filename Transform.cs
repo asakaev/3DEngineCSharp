@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CubeApp
+namespace Scene3D
 {
     class Transform
     {
@@ -60,7 +60,7 @@ namespace CubeApp
         {
             for (int i = 0; i < sc.objectsCount; i++)
             {
-                if (sc.objects[i].name != "coordsXYZ")
+                if (sc.objects[i].name != "coordsXYZ1")
                 {
                     MoveModel(sc.objects[i], x, y, z);
                 }
@@ -70,5 +70,29 @@ namespace CubeApp
             //sc.cs.placeInWorld.z += z;
 
         }
+
+        static private void ModelScale(Model m, double scale)
+        {
+            for (int i = 0; i < m.vtxCount; i++)
+            {
+                m.points[i].x /= scale;
+                m.points[i].y /= scale;
+                m.points[i].z /= scale;
+            }
+        }
+
+        static public void SceneScale(Scene s, double scale)
+        {
+            for (int i = 0; i < s.objectsCount; i++)
+            {
+                ModelScale(s.objects[i], scale);
+                s.objects[i].placeInWorld.x /= scale;
+                s.objects[i].placeInWorld.y /= scale;
+                s.objects[i].placeInWorld.z /= scale;
+
+            }
+        }
+
+
     }
 }

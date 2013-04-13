@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace CubeApp
+namespace Scene3D
 {
     // Triangle (faces, грани)
     class Polygon

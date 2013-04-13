@@ -1,4 +1,4 @@
-﻿namespace CubeApp
+﻿namespace Scene3D
 {
     partial class mform
     {
@@ -30,6 +30,8 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.sp = new System.Windows.Forms.SplitContainer();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.right = new System.Windows.Forms.Button();
             this.left = new System.Windows.Forms.Button();
             this.down = new System.Windows.Forms.Button();
@@ -69,6 +71,8 @@
             // 
             // sp.Panel2
             // 
+            this.sp.Panel2.Controls.Add(this.button3);
+            this.sp.Panel2.Controls.Add(this.button2);
             this.sp.Panel2.Controls.Add(this.right);
             this.sp.Panel2.Controls.Add(this.left);
             this.sp.Panel2.Controls.Add(this.down);
@@ -84,43 +88,63 @@
             this.sp.SplitterDistance = 564;
             this.sp.TabIndex = 12;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(432, 9);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 23;
+            this.button3.Text = "Zoom In";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(432, 36);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 22;
+            this.button2.Text = "Zoom Out";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // right
             // 
-            this.right.Location = new System.Drawing.Point(387, 34);
+            this.right.Location = new System.Drawing.Point(325, 34);
             this.right.Name = "right";
             this.right.Size = new System.Drawing.Size(25, 25);
             this.right.TabIndex = 21;
-            this.right.Text = "装";
+            this.right.Text = "<";
             this.right.UseVisualStyleBackColor = true;
             this.right.Click += new System.EventHandler(this.right_Click);
             // 
             // left
             // 
-            this.left.Location = new System.Drawing.Point(325, 34);
+            this.left.Location = new System.Drawing.Point(387, 34);
             this.left.Name = "left";
             this.left.Size = new System.Drawing.Size(25, 25);
             this.left.TabIndex = 20;
-            this.left.Text = "実";
+            this.left.Text = ">";
             this.left.UseVisualStyleBackColor = true;
             this.left.Click += new System.EventHandler(this.left_Click);
             // 
             // down
             // 
-            this.down.Location = new System.Drawing.Point(356, 34);
+            this.down.Location = new System.Drawing.Point(356, 7);
             this.down.Name = "down";
             this.down.Size = new System.Drawing.Size(25, 25);
             this.down.TabIndex = 19;
-            this.down.Text = "未";
+            this.down.Text = "^";
             this.down.UseVisualStyleBackColor = true;
             this.down.Click += new System.EventHandler(this.down_Click);
             // 
             // up
             // 
-            this.up.Location = new System.Drawing.Point(356, 7);
+            this.up.Location = new System.Drawing.Point(356, 34);
             this.up.Name = "up";
             this.up.Size = new System.Drawing.Size(25, 25);
             this.up.TabIndex = 18;
-            this.up.Text = "テ";
+            this.up.Text = "†";
             this.up.UseVisualStyleBackColor = true;
             this.up.Click += new System.EventHandler(this.up_Click);
             // 
@@ -158,7 +182,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Z axis";
+            this.label1.Text = "Y axis";
             // 
             // barX
             // 
@@ -214,6 +238,8 @@
         private System.Windows.Forms.Button left;
         private System.Windows.Forms.Button down;
         private System.Windows.Forms.Button up;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
 
     }
 }

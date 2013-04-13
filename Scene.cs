@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CubeApp
+namespace Scene3D
 {
     class Scene
     {

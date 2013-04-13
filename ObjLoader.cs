@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace CubeApp
+namespace Scene3D
 {
     class ObjLoader
     {
