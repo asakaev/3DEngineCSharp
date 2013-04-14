@@ -70,6 +70,7 @@
       <DependentUpon>mform.cs</DependentUpon>
     </Compile>
     <Compile Include="Model.cs" />
+    <Compile Include="Keyboard.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

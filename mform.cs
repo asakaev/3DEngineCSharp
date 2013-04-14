@@ -1,6 +1,7 @@
 ﻿using Scene3D;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Scene3D
@@ -70,18 +71,59 @@ namespace Scene3D
             Transform.MoveModel(tree, -20, 0, -40);
 
             Transform.RotateScene(scene, -90, 0, 0); // - по Х двигает ВНИЗ!
-            Transform.SceneScale(scene, 0.5);
+            Transform.SceneScale(scene, 0.5);            
+        }
+
+        void UpdateKeys()
+        {
+            if (Keyboard.IsKeyDown('W')) { Transform.MoveScene(scene, 0, 10, 0); }
+            if (Keyboard.IsKeyDown('A')) { Transform.MoveScene(scene, -10, 0, 0); }
+            if (Keyboard.IsKeyDown('S')) { Transform.MoveScene(scene, 0, -10, 0); }
+            if (Keyboard.IsKeyDown('D')) { Transform.MoveScene(scene, 10, 0, 0); }
+            if (Keyboard.IsKeyDown('E')) { scene.ActivateNext(); }
+            if (Keyboard.IsKeyDown('Q')) { scene.ActivatePrev(); }
+
+            if (Keyboard.IsKeyDown('X')) // увеличение объекта
+            {
+                if (scene.activeObject != -1) // если какой-нибудь выбран
+                {
+                    Transform.ModelScale(scene.objects[scene.activeObject], 0.9);
+                }
+            }
+            if (Keyboard.IsKeyDown('Z')) // уменьшение
+            {
+                if (scene.activeObject != -1) // если какой-нибудь выбран
+                {
+                    Transform.ModelScale(scene.objects[scene.activeObject], 1.1);
+                }
+            }
+
+            if (Keyboard.IsKeyDown('O')) // поворот
+            {
+                if (scene.activeObject != -1) // если какой-нибудь выбран
+                {
+                    Transform.RotateModel(scene.objects[scene.activeObject], 0,0,3);
+                }
+            }
+            if (Keyboard.IsKeyDown('P')) // поворот
+            {
+                if (scene.activeObject != -1) // если какой-нибудь выбран
+                {
+                    Transform.RotateModel(scene.objects[scene.activeObject], 0, 0, -3);
+                }
+            }
+
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
         {
-            Transform.RotateModel(ufo, 0.1, 0.1, 0.1);
+            Transform.RotateModel(ufo, 0.3, 0.3, 0.3);
             Transform.MoveModel(ufo, 0, mv, 0);
-            if ((ufo.placeInWorld.y > 50) || (ufo.placeInWorld.y < 0)) { mv *= -1; }
-
+            if ((ufo.placeInWorld.y > 100) || (ufo.placeInWorld.y < 49)) { mv *= -1; }
             Transform.RotateScene(scene, x, y, 0);
             scene.DrawScene(render.GetBuffer());  
             render.BufferToPanel();
+            UpdateKeys();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -110,26 +152,6 @@ namespace Scene3D
             label4.Text = Convert.ToString(x) + "     ";
         }
 
-        private void up_Click(object sender, EventArgs e)
-        {
-            Transform.MoveScene(scene, 0, 10, 0);
-        }
-
-        private void down_Click(object sender, EventArgs e)
-        {
-            Transform.MoveScene(scene, 0, -10, 0);
-        }
-
-        private void left_Click(object sender, EventArgs e)
-        {
-            Transform.MoveScene(scene, -10, 0, 0);
-        }
-
-        private void right_Click(object sender, EventArgs e)
-        {
-            Transform.MoveScene(scene, 10, 0, 0);
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             Transform.SceneScale(scene, 1.1);
@@ -138,11 +160,6 @@ namespace Scene3D
         private void button3_Click(object sender, EventArgs e)
         {
             Transform.SceneScale(scene, 0.9);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            scene.ActivateNext();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Scene3D
         public int vtxCount;
         public int polyCount; // количество треугольников в объекте
         public Vertex placeInWorld = new Vertex(0, 0, 0);
+        public Vertex rotation = new Vertex(0, 0, 0); // будет хранить угол поворота
         public string name;
         public bool active;
 

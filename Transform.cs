@@ -32,6 +32,31 @@ namespace Scene3D
 
         public static void RotateModel(Model obj, double degX, double degY, double degZ)
         {
+            obj.rotation.x += degX;
+            obj.rotation.y += degY;
+            obj.rotation.z += degZ;
+
+            if ((obj.rotation.x > 359) || (obj.rotation.x < -359)) { obj.rotation.x = obj.rotation.x % 360; }
+            if ((obj.rotation.y > 359) || (obj.rotation.y < -359)) { obj.rotation.y = obj.rotation.y % 360; }
+            if ((obj.rotation.z > 359) || (obj.rotation.z < -359)) { obj.rotation.z = obj.rotation.z % 360; }
+
+
+            // если передали нули, то будем вертеть в той же плоскости где объект
+            if (degX == 0)
+            {
+                //degX = obj.rotation.x;
+            }
+
+            if (degY == 0)
+            {
+                //degY = obj.rotation.y;
+            }
+
+            if (degZ == 0)
+            {
+                //degZ = obj.rotation.z;
+            }
+
             for (int i = 0; i < obj.vtxCount; i++)
             {
                 RotateVertex(obj.points[i], degX, degY, degZ);
@@ -67,7 +92,7 @@ namespace Scene3D
             }
         }
 
-        static private void ModelScale(Model m, double scale)
+        static public void ModelScale(Model m, double scale)
         {
             for (int i = 0; i < m.vtxCount; i++)
             {

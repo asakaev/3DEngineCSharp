@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Scene3D
@@ -9,7 +10,7 @@ namespace Scene3D
         public int objectsCount;
         public int polyCount;
         public int vtxCount;
-        private int activeObject;
+        public int activeObject;
 
         public Scene()
         {
@@ -55,6 +56,18 @@ namespace Scene3D
                     Draw.Triangle(objects[i].tris[j], objects[i].placeInWorld, image, color);
                 }
             }
+
+            if (activeObject != -1) // пишем в углу имя активной модели
+            {
+                Graphics g = Graphics.FromImage(image);
+                Font drawFont = new Font("Arial", 7);
+                String drawString = "Active object: " + objects[activeObject].name;
+                Color red = ColorTranslator.FromHtml("#d69d85");
+                SolidBrush drawBrush = new SolidBrush(red);
+                PointF drawPoint = new PointF(0,54);
+                g.DrawString(drawString, drawFont, drawBrush, drawPoint);
+                g.Dispose();
+            }
         }
 
         public void ActivateNext()
@@ -77,6 +90,29 @@ namespace Scene3D
             {
                 objects[0].active = true;
                 activeObject++;
+            }
+        }
+
+        public void ActivatePrev()
+        {
+            if (activeObject != -1) // если есть активный объект
+            {
+                if (activeObject != 0) // если не первый в сцене
+                {
+                    activeObject--;
+                    objects[activeObject].active = true;
+                    objects[activeObject + 1].active = false;
+                }
+                else // если первый
+                {
+                    objects[activeObject].active = false;
+                    activeObject = -1;
+                }
+            }
+            else // если не было активных
+            {
+                objects[objectsCount-1].active = true;
+                activeObject = objectsCount - 1;
             }
         }
     }

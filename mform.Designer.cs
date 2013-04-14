@@ -30,12 +30,10 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.sp = new System.Windows.Forms.SplitContainer();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.right = new System.Windows.Forms.Button();
-            this.left = new System.Windows.Forms.Button();
-            this.down = new System.Windows.Forms.Button();
-            this.up = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,8 +41,7 @@
             this.barX = new System.Windows.Forms.TrackBar();
             this.barZ = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sp)).BeginInit();
             this.sp.Panel2.SuspendLayout();
             this.sp.SuspendLayout();
@@ -55,7 +52,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(913, 59);
+            this.button1.Location = new System.Drawing.Point(998, 59);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 11;
@@ -74,15 +71,12 @@
             // 
             // sp.Panel2
             // 
-            this.sp.Panel2.Controls.Add(this.button4);
-            this.sp.Panel2.Controls.Add(this.label6);
+            this.sp.Panel2.Controls.Add(this.label8);
             this.sp.Panel2.Controls.Add(this.label5);
+            this.sp.Panel2.Controls.Add(this.label7);
+            this.sp.Panel2.Controls.Add(this.label6);
             this.sp.Panel2.Controls.Add(this.button3);
             this.sp.Panel2.Controls.Add(this.button2);
-            this.sp.Panel2.Controls.Add(this.right);
-            this.sp.Panel2.Controls.Add(this.left);
-            this.sp.Panel2.Controls.Add(this.down);
-            this.sp.Panel2.Controls.Add(this.up);
             this.sp.Panel2.Controls.Add(this.label4);
             this.sp.Panel2.Controls.Add(this.label3);
             this.sp.Panel2.Controls.Add(this.label2);
@@ -90,13 +84,31 @@
             this.sp.Panel2.Controls.Add(this.barX);
             this.sp.Panel2.Controls.Add(this.barZ);
             this.sp.Panel2.Controls.Add(this.button1);
-            this.sp.Size = new System.Drawing.Size(1000, 662);
+            this.sp.Size = new System.Drawing.Size(1085, 662);
             this.sp.SplitterDistance = 564;
             this.sp.TabIndex = 12;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(425, 12);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(113, 13);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "WASD — Move Scene";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(318, 69);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Scene Transform";
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(432, 7);
+            this.button3.Location = new System.Drawing.Point(319, 7);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(87, 23);
             this.button3.TabIndex = 23;
@@ -106,53 +118,13 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(432, 36);
+            this.button2.Location = new System.Drawing.Point(319, 36);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(87, 23);
             this.button2.TabIndex = 22;
             this.button2.Text = "Reduce";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // right
-            // 
-            this.right.Location = new System.Drawing.Point(387, 34);
-            this.right.Name = "right";
-            this.right.Size = new System.Drawing.Size(25, 25);
-            this.right.TabIndex = 21;
-            this.right.Text = ">";
-            this.right.UseVisualStyleBackColor = true;
-            this.right.Click += new System.EventHandler(this.right_Click);
-            // 
-            // left
-            // 
-            this.left.Location = new System.Drawing.Point(325, 34);
-            this.left.Name = "left";
-            this.left.Size = new System.Drawing.Size(25, 25);
-            this.left.TabIndex = 20;
-            this.left.Text = "<";
-            this.left.UseVisualStyleBackColor = true;
-            this.left.Click += new System.EventHandler(this.left_Click);
-            // 
-            // down
-            // 
-            this.down.Location = new System.Drawing.Point(356, 34);
-            this.down.Name = "down";
-            this.down.Size = new System.Drawing.Size(25, 25);
-            this.down.TabIndex = 19;
-            this.down.Text = "†";
-            this.down.UseVisualStyleBackColor = true;
-            this.down.Click += new System.EventHandler(this.down_Click);
-            // 
-            // up
-            // 
-            this.up.Location = new System.Drawing.Point(356, 7);
-            this.up.Name = "up";
-            this.up.Size = new System.Drawing.Size(25, 25);
-            this.up.TabIndex = 18;
-            this.up.Text = "^";
-            this.up.UseVisualStyleBackColor = true;
-            this.up.Click += new System.EventHandler(this.up_Click);
             // 
             // label4
             // 
@@ -215,36 +187,26 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(334, 69);
+            this.label5.Location = new System.Drawing.Point(425, 25);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 13);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Move Scene";
+            this.label5.Size = new System.Drawing.Size(121, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Q/E — Select Next/Prev";
             // 
-            // label6
+            // label8
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(431, 69);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 13);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Scene Transform";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(551, 36);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 26;
-            this.button4.Text = "Select Next";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(425, 38);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(103, 13);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "O/P — Rotate Model";
             // 
             // mform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 662);
+            this.ClientSize = new System.Drawing.Size(1085, 662);
             this.Controls.Add(this.sp);
             this.Name = "mform";
             this.Text = "Form1";
@@ -268,15 +230,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button right;
-        private System.Windows.Forms.Button left;
-        private System.Windows.Forms.Button down;
-        private System.Windows.Forms.Button up;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label8;
 
     }
 }
