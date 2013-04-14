@@ -15,7 +15,6 @@ namespace Scene3D
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new mform());
         }
     }

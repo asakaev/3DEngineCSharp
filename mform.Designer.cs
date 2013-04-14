@@ -30,6 +30,8 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.sp = new System.Windows.Forms.SplitContainer();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -40,8 +42,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.barX = new System.Windows.Forms.TrackBar();
             this.barZ = new System.Windows.Forms.TrackBar();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sp)).BeginInit();
             this.sp.Panel2.SuspendLayout();
             this.sp.SuspendLayout();
@@ -87,6 +87,24 @@
             this.sp.Size = new System.Drawing.Size(1085, 662);
             this.sp.SplitterDistance = 564;
             this.sp.TabIndex = 12;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(425, 38);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(103, 13);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "O/P — Rotate Model";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(425, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(121, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Q/E — Select Next/Prev";
             // 
             // label7
             // 
@@ -183,24 +201,6 @@
             this.barZ.Size = new System.Drawing.Size(206, 45);
             this.barZ.TabIndex = 12;
             this.barZ.Scroll += new System.EventHandler(this.barZ_Scroll);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(425, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(121, 13);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Q/E — Select Next/Prev";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(425, 38);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(103, 13);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "O/P — Rotate Model";
             // 
             // mform
             // 

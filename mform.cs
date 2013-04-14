@@ -21,6 +21,7 @@ namespace Scene3D
         public mform()
         {
             InitializeComponent();
+
             Text = Application.ProductName + " v" + Application.ProductVersion; // заголовок
             render = new Render(sp.Panel1);
             timer.Interval = 15; // between 1 ms and 20 ms разброс т.к. не реалтайм
@@ -112,7 +113,6 @@ namespace Scene3D
                     Transform.RotateModel(scene.objects[scene.activeObject], 0, 0, -3);
                 }
             }
-
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
@@ -122,7 +122,8 @@ namespace Scene3D
             if ((ufo.placeInWorld.y > 100) || (ufo.placeInWorld.y < 49)) { mv *= -1; }
             Transform.RotateScene(scene, x, y, 0);
             scene.DrawScene(render.GetBuffer());  
-            render.BufferToPanel();
+            //render.BufferToPanel();
+            render.FastDraw();
             UpdateKeys();
         }
 
