@@ -42,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.barX = new System.Windows.Forms.TrackBar();
             this.barZ = new System.Windows.Forms.TrackBar();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sp)).BeginInit();
             this.sp.Panel2.SuspendLayout();
             this.sp.SuspendLayout();
@@ -71,6 +72,7 @@
             // 
             // sp.Panel2
             // 
+            this.sp.Panel2.Controls.Add(this.label9);
             this.sp.Panel2.Controls.Add(this.label8);
             this.sp.Panel2.Controls.Add(this.label5);
             this.sp.Panel2.Controls.Add(this.label7);
@@ -202,6 +204,15 @@
             this.barZ.TabIndex = 12;
             this.barZ.Scroll += new System.EventHandler(this.barZ_Scroll);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(425, 51);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(94, 13);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Z/X - Scale Model";
+            // 
             // mform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,6 +247,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
 
     }
 }

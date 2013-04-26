@@ -122,8 +122,7 @@ namespace Scene3D
             if ((ufo.placeInWorld.y > 100) || (ufo.placeInWorld.y < 49)) { mv *= -1; }
             Transform.RotateScene(scene, x, y, 0);
             scene.DrawScene(render.GetBuffer());  
-            //render.BufferToPanel();
-            render.FastDraw();
+            render.BufferToPanel();
             UpdateKeys();
         }
 
