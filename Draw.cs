@@ -27,22 +27,22 @@ namespace Scene3D
             int x1, y1, x2, y2;
 
             // перенос учитывая центр дисплея
-            x1 = (int)Math.Round(xC + t.tri[0].x);
-            y1 = (int)Math.Round(yC - t.tri[0].y);
-            x2 = (int)Math.Round(xC + t.tri[1].x);
-            y2 = (int)Math.Round(yC - t.tri[1].y);
+            x1 = t.tri[0].GetIntX();
+            y1 = t.tri[0].GetIntY();
+            x2 = t.tri[1].GetIntX();
+            y2 = t.tri[1].GetIntY();
             g.DrawLine(myPen, x1, y1, x2, y2);
 
-            x1 = (int)Math.Round(xC + t.tri[1].x);
-            y1 = (int)Math.Round(yC - t.tri[1].y);
-            x2 = (int)Math.Round(xC + t.tri[2].x);
-            y2 = (int)Math.Round(yC - t.tri[2].y);
+            x1 = t.tri[1].GetIntX();
+            y1 = t.tri[1].GetIntY();
+            x2 = t.tri[2].GetIntX();
+            y2 = t.tri[2].GetIntY();
             g.DrawLine(myPen, x1, y1, x2, y2);
 
-            x1 = (int)Math.Round(xC + t.tri[2].x);
-            y1 = (int)Math.Round(yC - t.tri[2].y);
-            x2 = (int)Math.Round(xC + t.tri[0].x);
-            y2 = (int)Math.Round(yC - t.tri[0].y);
+            x1 = t.tri[2].GetIntX();
+            y1 = t.tri[2].GetIntY();
+            x2 = t.tri[0].GetIntX();
+            y2 = t.tri[0].GetIntY();
             g.DrawLine(myPen, x1, y1, x2, y2);
 
             myPen.Dispose();

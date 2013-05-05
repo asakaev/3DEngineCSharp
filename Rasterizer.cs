@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Scene3D
 {
-    class Render
+    class Rasterizer
     {
         private Panel pan; // «устройство вывода», монитор (в нашем случае панель)
         private Bitmap buffer;
@@ -15,7 +15,7 @@ namespace Scene3D
         private int yC;
         private FPS fps = new FPS(); // считает и показывает фпс
 
-        public Render(Panel sur)
+        public Rasterizer(Panel sur)
         {
             pan = sur;
             w = pan.ClientSize.Width;

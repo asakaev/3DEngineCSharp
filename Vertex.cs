@@ -14,8 +14,8 @@ namespace Scene3D
             zOrg = z = _z;
         }
 
-        public int GetIntX() { return Convert.ToInt32(x); }
-        public int GetIntY() { return Convert.ToInt32(y); }
-        public int GetIntZ() { return Convert.ToInt32(z); }
+        public int GetIntX() { return (int)Math.Round(x); }
+        public int GetIntY() { return (int)Math.Round(y); }
+        public int GetIntZ() { return (int)Math.Round(z); }
     }
 }

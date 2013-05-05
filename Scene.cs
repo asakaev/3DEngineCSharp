@@ -15,6 +15,7 @@ namespace Scene3D
         public Vertex rotation = new Vertex(0, 0, 0);
         public Vertex move = new Vertex(0, 0, 0);
         public Camera cam;
+        bool perspective = true;
 
         public Scene()
         {
@@ -43,6 +44,7 @@ namespace Scene3D
         public void DrawScene(Bitmap image)
         {
             DoTransform(); // Пересчет всех координат
+            Projection(image.Width, image.Height);
 
             Draw.Background(image); // отрисовка фона
             Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
@@ -158,10 +160,9 @@ namespace Scene3D
                 objects[i].ScaleRotateMove();
             }
 
-            // Теперь со сценой
+            // Теперь со сценой и камерой
             ScaleRotateMove();
             cam.MoveRotate();
-
         }
 
         public void ScaleRotateMove()
@@ -186,6 +187,49 @@ namespace Scene3D
                     m.points[j].x += move.x; // -cam.move.x;
                     m.points[j].y += move.y; // -cam.move.y;
                     m.points[j].z += move.z; // -cam.move.z;
+                }
+            }
+        }
+
+        public void Projection(double w, double h)
+        {
+            if (perspective)
+            {
+                double oX = w / 2;
+                double oY = h / 2;
+
+                //double D = w * 2 / h;
+                //double Ofs = w * 2 / h;
+                //double D = 173;
+                //double Ofs = 73;
+                double D = w;
+                double Ofs = h;
+
+                for (int i = 0; i < objectsCount; i++)
+                {
+                    Model m = objects[i];
+                    for (int j = 0; j < m.vtxCount; j++)
+                    {
+                        double k = D / (m.points[j].z + Ofs);
+                        m.points[j].x = oX + (m.points[j].x * k);
+                        m.points[j].y = oY - (m.points[j].y * k);
+                    }
+                }
+            }
+            else
+            {
+                // Центр дисплея
+                double oX = w / 2;
+                double oY = h / 2;
+
+                for (int i = 0; i < objectsCount; i++)
+                {
+                    Model m = objects[i];
+                    for (int j = 0; j < m.vtxCount; j++)
+                    {
+                        m.points[j].x = oX + m.points[j].x;
+                        m.points[j].y = oY - m.points[j].y;
+                    }
                 }
             }
         }
