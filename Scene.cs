@@ -11,17 +11,23 @@ namespace Scene3D
         public int polyCount;
         public int vtxCount;
         public int activeObject;
+        public Vertex scale = new Vertex(1, 1, 1);
+        public Vertex rotation = new Vertex(0, 0, 0);
+        public Vertex move = new Vertex(0, 0, 0);
+        public Camera cam;
 
         public Scene()
         {
             objectsCount = 0;
             polyCount = 0;
             activeObject = -1; // нет активных объектов
+            cam = new Camera(this);
         }
 
         public void AddObject(Model obj)
         {
             objects.Add(obj);
+            obj.sc = this; // устанавливаем сцену родителем для всех моделей
             objectsCount++;
 
             // обновляем количество полигонов и вертексов в сцене
@@ -36,6 +42,8 @@ namespace Scene3D
 
         public void DrawScene(Bitmap image)
         {
+            DoTransform(); // Пересчет всех координат
+
             Draw.Background(image); // отрисовка фона
             Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
 
@@ -53,7 +61,7 @@ namespace Scene3D
 
                 for (int j = 0; j < objects[i].polyCount; j++) // для всех треугольников
                 {
-                    Draw.Triangle(objects[i].tris[j], objects[i].placeInWorld, image, color);
+                    Draw.Triangle(objects[i].tris[j], objects[i].move, image, color);
                 }
             }
 
@@ -113,6 +121,72 @@ namespace Scene3D
             {
                 objects[objectsCount-1].active = true;
                 activeObject = objectsCount - 1;
+            }
+        }
+
+        public void AppendScale(double x, double y, double z)
+        {
+            scale.x += x;
+            scale.y += y;
+            scale.z += z;
+        }
+
+        public void AppendRotate(double x, double y, double z)
+        {
+            rotation.x += x;
+            rotation.y += y;
+            rotation.z += z;
+
+            // проверяем на полный поворот вокруг осей
+            if ((rotation.x > 359) || (rotation.x < -359)) { rotation.x = rotation.x % 360; }
+            if ((rotation.y > 359) || (rotation.y < -359)) { rotation.y = rotation.y % 360; }
+            if ((rotation.z > 359) || (rotation.z < -359)) { rotation.z = rotation.z % 360; }
+        }
+
+        public void AppendMove(double x, double y, double z)
+        {
+            move.x += x;
+            move.y += y;
+            move.z += z;
+        }
+
+        public void DoTransform()
+        {
+            // Операции с моделями
+            for (int i = 0; i < objectsCount; i++)
+            {
+                objects[i].ScaleRotateMove();
+            }
+
+            // Теперь со сценой
+            ScaleRotateMove();
+            cam.MoveRotate();
+
+        }
+
+        public void ScaleRotateMove()
+        {
+            for (int i = 0; i < objectsCount; i++)
+            {
+                Model m = objects[i];
+                for (int j = 0; j < m.vtxCount; j++)
+                {
+                    // Scale
+                    m.points[j].x /= scale.x;
+                    m.points[j].y /= scale.y;
+                    m.points[j].z /= scale.z;
+
+                    // Rotation
+                    double xR = rotation.x; // -cam.rotation.x;
+                    double yR = rotation.y; // -cam.rotation.y;
+                    double zR = rotation.z; // -cam.rotation.z;
+                    Transform.RotateVertex(m.points[j], xR, yR, zR);
+
+                    // Move
+                    m.points[j].x += move.x; // -cam.move.x;
+                    m.points[j].y += move.y; // -cam.move.y;
+                    m.points[j].z += move.z; // -cam.move.z;
+                }
             }
         }
     }

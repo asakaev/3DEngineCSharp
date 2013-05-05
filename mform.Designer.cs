@@ -30,6 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.sp = new System.Windows.Forms.SplitContainer();
+            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -42,7 +43,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.barX = new System.Windows.Forms.TrackBar();
             this.barZ = new System.Windows.Forms.TrackBar();
-            this.label9 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sp)).BeginInit();
             this.sp.Panel2.SuspendLayout();
             this.sp.SuspendLayout();
@@ -72,6 +77,11 @@
             // 
             // sp.Panel2
             // 
+            this.sp.Panel2.Controls.Add(this.label10);
+            this.sp.Panel2.Controls.Add(this.button7);
+            this.sp.Panel2.Controls.Add(this.button6);
+            this.sp.Panel2.Controls.Add(this.button5);
+            this.sp.Panel2.Controls.Add(this.button4);
             this.sp.Panel2.Controls.Add(this.label9);
             this.sp.Panel2.Controls.Add(this.label8);
             this.sp.Panel2.Controls.Add(this.label5);
@@ -89,6 +99,15 @@
             this.sp.Size = new System.Drawing.Size(1085, 662);
             this.sp.SplitterDistance = 564;
             this.sp.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(425, 51);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(94, 13);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Z/X - Scale Model";
             // 
             // label8
             // 
@@ -186,8 +205,8 @@
             // 
             this.barX.LargeChange = 1;
             this.barX.Location = new System.Drawing.Point(53, 0);
-            this.barX.Maximum = 8;
-            this.barX.Minimum = -8;
+            this.barX.Maximum = 6;
+            this.barX.Minimum = -6;
             this.barX.Name = "barX";
             this.barX.Size = new System.Drawing.Size(206, 45);
             this.barX.TabIndex = 13;
@@ -197,21 +216,59 @@
             // 
             this.barZ.LargeChange = 1;
             this.barZ.Location = new System.Drawing.Point(53, 46);
-            this.barZ.Maximum = 8;
-            this.barZ.Minimum = -8;
+            this.barZ.Maximum = 6;
+            this.barZ.Minimum = -6;
             this.barZ.Name = "barZ";
             this.barZ.Size = new System.Drawing.Size(206, 45);
             this.barZ.TabIndex = 12;
             this.barZ.Scroll += new System.EventHandler(this.barZ_Scroll);
             // 
-            // label9
+            // button4
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(425, 51);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(94, 13);
-            this.label9.TabIndex = 32;
-            this.label9.Text = "Z/X - Scale Model";
+            this.button4.Location = new System.Drawing.Point(642, 12);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(24, 23);
+            this.button4.TabIndex = 33;
+            this.button4.Text = "x";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(642, 38);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(24, 23);
+            this.button5.TabIndex = 34;
+            this.button5.Text = "x";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(612, 38);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(24, 23);
+            this.button6.TabIndex = 35;
+            this.button6.Text = "x";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(672, 38);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(24, 23);
+            this.button7.TabIndex = 36;
+            this.button7.Text = "x";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(610, 69);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 13);
+            this.label10.TabIndex = 37;
+            this.label10.Text = "Camera Rotation";
             // 
             // mform
             // 
@@ -248,6 +305,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
 
     }
 }

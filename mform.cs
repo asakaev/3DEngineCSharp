@@ -31,56 +31,63 @@ namespace Scene3D
             // добавляем модели и их начальные значения
             ufo = ObjLoader.Load("ufo.obj", 2);
             scene.AddObject(ufo);
-            Transform.MoveModel(ufo, 0, 50, 0);
+            ufo.AppendMove(0, 50, 0); // в метрах
 
             Model rassv = ObjLoader.Load("Rassv.obj", 75/4.5);
             scene.AddObject(rassv);
-            Transform.MoveModel(rassv, 0, 0, 100); // в метрах
+            rassv.AppendMove(0, 0, 100);
 
             Model liga = ObjLoader.Load("liga.obj", 50 / 18);
             scene.AddObject(liga);
-            Transform.MoveModel(liga, 95, 0, 100);
+            liga.AppendMove(95, 0, 100);
 
             Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
             scene.AddObject(mir);
-            Transform.MoveModel(mir, 150, 0, 100);
+            mir.AppendMove(150, 0, 100);
 
             Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
             scene.AddObject(ammo);
-            Transform.MoveModel(ammo, 178, 0, -110);
-            Transform.RotateModel(ammo, 0, 54, 0);
+            ammo.AppendRotate(0, 54, 0);
+            ammo.AppendMove(178, 0, -110);
 
             Model busStop1 = ObjLoader.Load("ost.obj", 15);
             scene.AddObject(busStop1);
-            Transform.MoveModel(busStop1, 50, 0, -30);
+            busStop1.AppendMove(50, 0, -30);
 
             Model busStop2 = ObjLoader.Load("ost.obj", 15);
             scene.AddObject(busStop2);
-            Transform.MoveModel(busStop2, 110, 0, 80);
-            Transform.RotateModel(busStop2, 0, 180, 0);
+            busStop2.AppendMove(110, 0, 80);
+            busStop2.AppendRotate(0, 180, 0);
 
             Model obraz = ObjLoader.Load("obr.obj", 55/4);
             scene.AddObject(obraz);
-            Transform.MoveModel(obraz, -140, 0, 76);
+            obraz.AppendMove(-140, 0, 76);
 
             Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
             scene.AddObject(gogol);
-            Transform.MoveModel(gogol, -200, 0, -155);
+            gogol.AppendMove(-200, 0, -155);
 
             Model tree = ObjLoader.Load("Tree.obj", 2);
             scene.AddObject(tree);
-            Transform.MoveModel(tree, -20, 0, -40);
+            tree.AppendMove(-20, 0, -40);
 
-            Transform.RotateScene(scene, -90, 0, 0); // - по Х двигает ВНИЗ!
-            Transform.SceneScale(scene, 0.5);            
+            //scene.AppendRotate(-60, 0, 0); // - по Х двигает ВНИЗ!
+            //scene.cam.AppendMove(0, 200, -1000);
         }
 
         void UpdateKeys()
         {
-            if (Keyboard.IsKeyDown('W')) { Transform.MoveScene(scene, 0, 10, 0); }
-            if (Keyboard.IsKeyDown('A')) { Transform.MoveScene(scene, -10, 0, 0); }
-            if (Keyboard.IsKeyDown('S')) { Transform.MoveScene(scene, 0, -10, 0); }
-            if (Keyboard.IsKeyDown('D')) { Transform.MoveScene(scene, 10, 0, 0); }
+            if (Keyboard.IsKeyDown('W')) { scene.AppendMove(0, 10, 0); }
+            if (Keyboard.IsKeyDown('A')) { scene.AppendMove(-10, 0, 0); }
+            if (Keyboard.IsKeyDown('S')) { scene.AppendMove(0, -10, 0); }
+            if (Keyboard.IsKeyDown('D')) { scene.AppendMove(10, 0, 0); }
+
+            if (Keyboard.IsKeyDown('T')) { scene.cam.AppendMove(0, 10, 0); }
+            if (Keyboard.IsKeyDown('F')) { scene.cam.AppendMove(-10, 0, 0); }
+            if (Keyboard.IsKeyDown('G')) { scene.cam.AppendMove(0, -10, 0); }
+            if (Keyboard.IsKeyDown('H')) { scene.cam.AppendMove(10, 0, 0); }
+
+
             if (Keyboard.IsKeyDown('E')) { scene.ActivateNext(); }
             if (Keyboard.IsKeyDown('Q')) { scene.ActivatePrev(); }
 
@@ -88,14 +95,18 @@ namespace Scene3D
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
-                    Transform.ModelScale(scene.objects[scene.activeObject], 0.9);
+                    double x, y, z;
+                    x = y = z = -0.01;
+                    scene.objects[scene.activeObject].AppendScale(x,y,z);
                 }
             }
             if (Keyboard.IsKeyDown('Z')) // уменьшение
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
-                    Transform.ModelScale(scene.objects[scene.activeObject], 1.1);
+                    double x, y, z;
+                    x = y = z = 0.01;
+                    scene.objects[scene.activeObject].AppendScale(x, y, z);
                 }
             }
 
@@ -103,24 +114,24 @@ namespace Scene3D
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
-                    Transform.RotateModel(scene.objects[scene.activeObject], 0,0,3);
+                    scene.objects[scene.activeObject].AppendRotate(0, 0, 3);
                 }
             }
             if (Keyboard.IsKeyDown('P')) // поворот
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
-                    Transform.RotateModel(scene.objects[scene.activeObject], 0, 0, -3);
+                    scene.objects[scene.activeObject].AppendRotate(0, 0, -3);
                 }
             }
         }
 
         void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
         {
-            Transform.RotateModel(ufo, 0.3, 0.3, 0.3);
-            Transform.MoveModel(ufo, 0, mv, 0);
-            if ((ufo.placeInWorld.y > 100) || (ufo.placeInWorld.y < 49)) { mv *= -1; }
-            Transform.RotateScene(scene, x, y, 0);
+            ufo.AppendRotate(0.3, 0.3, 0.3);
+            ufo.AppendMove(0, mv, 0);
+            if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
+            scene.AppendRotate(x, y, 0);
             scene.DrawScene(render.GetBuffer());  
             render.BufferToPanel();
             UpdateKeys();
@@ -142,24 +153,38 @@ namespace Scene3D
 
         private void barZ_Scroll(object sender, EventArgs e)
         {
-            y = (double)barZ.Value / 4;
+            y = (double)barZ.Value / 10;
             label3.Text = Convert.ToString(y) + "     ";
         }
 
         private void barX_Scroll(object sender, EventArgs e)
         {
-            x = (double)barX.Value / 4;
+            x = (double)barX.Value / 10;
             label4.Text = Convert.ToString(x) + "     ";
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Transform.SceneScale(scene, 1.1);
+            double x, y, z;
+            x = y = z = 0.1;
+            scene.AppendScale(x,y,z);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Transform.SceneScale(scene, 0.9);
+            double x, y, z;
+            x = y = z = -0.1;
+            scene.AppendScale(x, y, z);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            scene.cam.AppendRotate(-1, 0, 0);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            scene.cam.AppendRotate(1, 0, 0);
         }
     }
 }

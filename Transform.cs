@@ -4,7 +4,7 @@ namespace Scene3D
 {
     class Transform
     {
-        private static void RotateVertex(Vertex p, double _x, double _y, double _z)
+        public static void RotateVertex(Vertex p, double _x, double _y, double _z)
         {
             double radX = (Math.PI * _x) / 180;
             double radY = (Math.PI * _y) / 180;
@@ -28,90 +28,6 @@ namespace Scene3D
             y = p.y;
             p.x = (x * Math.Cos(radZ)) - (y * Math.Sin(radZ));
             p.y = (x * Math.Sin(radZ)) + (y * Math.Cos(radZ));
-        }
-
-        public static void RotateModel(Model obj, double degX, double degY, double degZ)
-        {
-            obj.rotation.x += degX;
-            obj.rotation.y += degY;
-            obj.rotation.z += degZ;
-
-            if ((obj.rotation.x > 359) || (obj.rotation.x < -359)) { obj.rotation.x = obj.rotation.x % 360; }
-            if ((obj.rotation.y > 359) || (obj.rotation.y < -359)) { obj.rotation.y = obj.rotation.y % 360; }
-            if ((obj.rotation.z > 359) || (obj.rotation.z < -359)) { obj.rotation.z = obj.rotation.z % 360; }
-
-
-            // если передали нули, то будем вертеть в той же плоскости где объект
-            if (degX == 0)
-            {
-                //degX = obj.rotation.x;
-            }
-
-            if (degY == 0)
-            {
-                //degY = obj.rotation.y;
-            }
-
-            if (degZ == 0)
-            {
-                //degZ = obj.rotation.z;
-            }
-
-            for (int i = 0; i < obj.vtxCount; i++)
-            {
-                RotateVertex(obj.points[i], degX, degY, degZ);
-            }
-        }
-
-        public static void MoveModel(Model obj, double x, double y, double z)
-        {
-            obj.placeInWorld.x += x;
-            obj.placeInWorld.y += y;
-            obj.placeInWorld.z += z;
-        }
-
-        public static void RotateScene(Scene sc, double x, double y, double z)
-        {
-            for (int i = 0; i < sc.objectsCount; i++)
-            {
-                // вращаем объект относительно своего центра на угол поворота сцены
-                RotateModel(sc.objects[i], x, y, z);
-                // и вращаем ещё точку положения сцены отностильно начала координат сцены
-                RotateVertex(sc.objects[i].placeInWorld, x, y, z);
-            }
-        }
-
-        public static void MoveScene(Scene sc, double x, double y, double z)
-        {
-            for (int i = 0; i < sc.objectsCount; i++)
-            {
-                if (sc.objects[i].name != "coordsXYZ1")
-                {
-                    MoveModel(sc.objects[i], x, y, z);
-                }
-            }
-        }
-
-        static public void ModelScale(Model m, double scale)
-        {
-            for (int i = 0; i < m.vtxCount; i++)
-            {
-                m.points[i].x /= scale;
-                m.points[i].y /= scale;
-                m.points[i].z /= scale;
-            }
-        }
-
-        static public void SceneScale(Scene s, double scale)
-        {
-            for (int i = 0; i < s.objectsCount; i++)
-            {
-                ModelScale(s.objects[i], scale);
-                s.objects[i].placeInWorld.x /= scale;
-                s.objects[i].placeInWorld.y /= scale;
-                s.objects[i].placeInWorld.z /= scale;
-
-            }
         }
     }
 }
