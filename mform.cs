@@ -15,7 +15,6 @@ namespace Scene3D
 
         // для поворотов
         double y;
-        double x;
         Model ufo;
 
         public mform()
@@ -32,9 +31,6 @@ namespace Scene3D
             ufo = ObjLoader.Load("ufo.obj", 2);
             scene.AddObject(ufo);
             ufo.AppendMove(0, 50, 0); // в метрах
-
-            Model cube = ObjLoader.Load("cube.obj", 50);
-            scene.AddObject(cube);
 
             Model rassv = ObjLoader.Load("Rassv.obj", 75/4.5);
             scene.AddObject(rassv);
@@ -74,17 +70,20 @@ namespace Scene3D
             scene.AddObject(tree);
             tree.AppendMove(-20, 0, -40);
 
-            //scene.AppendRotate(-60, 0, 0); // - по Х двигает ВНИЗ!
-            scene.cam.AppendMove(0, 0, -2000);
+            scene.cam.AppendMove(0, 100, -80);
+            scene.cam.AppendRotate(-60, 0, 0); // - по Х двигает ВНИЗ!
             //scene.AppendMove(-400, -400, 0);
         }
 
         void UpdateKeys()
         {
             if (Keyboard.IsKeyDown('W')) { scene.cam.AppendMove(0, 0, 10); }
-            if (Keyboard.IsKeyDown('A')) { scene.cam.AppendRotate(0, -1, 0); }
+            if (Keyboard.IsKeyDown('A')) { scene.cam.AppendMove(-10, 0, 0); }
             if (Keyboard.IsKeyDown('S')) { scene.cam.AppendMove(0, 0, -10); }
-            if (Keyboard.IsKeyDown('D')) { scene.cam.AppendRotate(0, 1, 0); }
+            if (Keyboard.IsKeyDown('D')) { scene.cam.AppendMove(10, 0, 0); }
+
+            if (Keyboard.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
+            if (Keyboard.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
 
             if (Keyboard.IsKeyDown('T')) { scene.cam.AppendMove(0, 10, 0); }
             if (Keyboard.IsKeyDown('F')) { scene.cam.AppendMove(-10, 0, 0); }
@@ -135,7 +134,7 @@ namespace Scene3D
             ufo.AppendRotate(0.3, 0.3, 0.3);
             ufo.AppendMove(0, mv, 0);
             if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
-            scene.AppendRotate(x, y, 0);
+            scene.AppendRotate(0, y, 0);
             scene.DrawScene(render.GetBuffer());
             render.BufferToPanel();
             UpdateKeys();
@@ -159,12 +158,6 @@ namespace Scene3D
         {
             y = (double)barZ.Value / 10;
             label3.Text = Convert.ToString(y) + "     ";
-        }
-
-        private void barX_Scroll(object sender, EventArgs e)
-        {
-            x = (double)barX.Value / 10;
-            label4.Text = Convert.ToString(x) + "     ";
         }
 
         private void button2_Click(object sender, EventArgs e)

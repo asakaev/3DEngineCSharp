@@ -18,11 +18,6 @@ namespace Scene3D
             }
 
             Pen myPen = new Pen(color);
-
-            // Центр дисплея
-            int xC = image.Width / 2;
-            int yC = image.Height / 2;
-
             myPen.Color = color;
             int x1, y1, x2, y2;
 

@@ -178,15 +178,15 @@ namespace Scene3D
                     m.points[j].z /= scale.z;
 
                     // Rotation
-                    double xR = rotation.x; // -cam.rotation.x;
-                    double yR = rotation.y; // -cam.rotation.y;
-                    double zR = rotation.z; // -cam.rotation.z;
+                    double xR = rotation.x;
+                    double yR = rotation.y;
+                    double zR = rotation.z;
                     Transform.RotateVertex(m.points[j], xR, yR, zR);
 
                     // Move
-                    m.points[j].x += move.x; // -cam.move.x;
-                    m.points[j].y += move.y; // -cam.move.y;
-                    m.points[j].z += move.z; // -cam.move.z;
+                    m.points[j].x += move.x;
+                    m.points[j].y += move.y;
+                    m.points[j].z += move.z;
                 }
             }
         }
