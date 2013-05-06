@@ -13,8 +13,7 @@ namespace Scene3D
         Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
 
-        // для поворотов
-        double y;
+        double y; // для поворотов
         Model ufo;
 
         public mform()
@@ -71,8 +70,7 @@ namespace Scene3D
             tree.AppendMove(-20, 0, -40);
 
             scene.cam.AppendMove(0, 100, -80);
-            scene.cam.AppendRotate(-60, 0, 0); // - по Х двигает ВНИЗ!
-            //scene.AppendMove(-400, -400, 0);
+            scene.cam.AppendRotate(-60, 0, 0);
         }
 
         void UpdateKeys()
@@ -129,7 +127,7 @@ namespace Scene3D
             }
         }
 
-        void timer_Tick(object sender, EventArgs e) // 170 FPS в OnPaint vs 65 FPS в Timer (no loop)
+        void timer_Tick(object sender, EventArgs e)
         {
             ufo.AppendRotate(0.3, 0.3, 0.3);
             ufo.AppendMove(0, mv, 0);
