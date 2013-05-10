@@ -37,21 +37,18 @@
                 Model m = s.objects[i];
                 for (int j = 0; j < m.vtxCount; j++)
                 {
-                    // Move
-                    m.points[j].x -= move.x;
-                    m.points[j].y -= move.y;
-                    m.points[j].z -= move.z;
-
                     // Rotation
                     double xR = rotation.x;
                     double yR = rotation.y;
                     double zR = rotation.z;
                     Transform.RotateVertex(m.points[j], xR, yR, zR);
 
-
+                    // Move
+                    m.points[j].x -= move.x;
+                    m.points[j].y -= move.y;
+                    m.points[j].z -= move.z;
                 }
             }
         }
-
     }
 }

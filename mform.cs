@@ -83,11 +83,53 @@ namespace Scene3D
             if (Keyboard.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
             if (Keyboard.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
 
-            if (Keyboard.IsKeyDown('T')) { scene.cam.AppendMove(0, 10, 0); }
-            if (Keyboard.IsKeyDown('F')) { scene.cam.AppendMove(-10, 0, 0); }
-            if (Keyboard.IsKeyDown('G')) { scene.cam.AppendMove(0, -10, 0); }
-            if (Keyboard.IsKeyDown('H')) { scene.cam.AppendMove(10, 0, 0); }
+            if (Keyboard.IsKeyDown('T'))
+            {
+                if (scene.activeObject != -1) // если какой-нибудь выбран
+                {
+                    scene.objects[scene.activeObject].AppendMove(0, 0, 10);
+                }
+            }
 
+            if (Keyboard.IsKeyDown('F'))
+            {
+                if (scene.activeObject != -1)
+                {
+                    scene.objects[scene.activeObject].AppendMove(-10, 0, 0);
+                }
+            }
+
+            if (Keyboard.IsKeyDown('G'))
+            {
+                if (scene.activeObject != -1)
+                {
+                    scene.objects[scene.activeObject].AppendMove(0, 0, -10);
+                }
+            }
+
+            if (Keyboard.IsKeyDown('H'))
+            {
+                if (scene.activeObject != -1)
+                {
+                    scene.objects[scene.activeObject].AppendMove(10, 0, 0);
+                }
+            }
+
+            if (Keyboard.IsKeyDown('R'))
+            {
+                if (scene.activeObject != -1)
+                {
+                    scene.objects[scene.activeObject].AppendMove(0, -10, 0);
+                }
+            }
+
+            if (Keyboard.IsKeyDown('Y'))
+            {
+                if (scene.activeObject != -1)
+                {
+                    scene.objects[scene.activeObject].AppendMove(0, 10, 0);
+                }
+            }
 
             if (Keyboard.IsKeyDown('E')) { scene.ActivateNext(); }
             if (Keyboard.IsKeyDown('Q')) { scene.ActivatePrev(); }
@@ -133,23 +175,9 @@ namespace Scene3D
             ufo.AppendMove(0, mv, 0);
             if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
             scene.AppendRotate(0, y, 0);
-            scene.DrawScene(render.GetBuffer());
+            scene.DrawScene(render);
             render.BufferToPanel();
             UpdateKeys();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (!timer.Enabled)
-            {
-                timer.Enabled = !(timer.Enabled);
-                button1.Text = "Stop";
-            }
-            else
-            {
-                timer.Enabled = !(timer.Enabled);
-                button1.Text = "Run";
-            }
         }
 
         private void barZ_Scroll(object sender, EventArgs e)

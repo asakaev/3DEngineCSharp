@@ -41,13 +41,18 @@ namespace Scene3D
             }
         }
 
-        public void DrawScene(Bitmap image)
+        public void DrawScene(Rasterizer r)
         {
             DoTransform(); // Пересчет всех координат
-            Projection(image.Width, image.Height);
+            Projection(r.w, r.h);
 
-            Draw.Background(image); // отрисовка фона
-            Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
+            Draw.Background(r);
+            Color c = ColorTranslator.FromHtml("#4ec9b0"); // green
+            //Draw.SetPixel(r, c, r.w-1, r.h-1);
+            Draw.SetPixel(r, c, 10, 10);
+
+            //Draw.Background(render); // отрисовка фона
+            //Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
 
             for (int i = 0; i < objectsCount; i++) // для всех объектов сцены
             {
@@ -63,20 +68,21 @@ namespace Scene3D
 
                 for (int j = 0; j < objects[i].polyCount; j++) // для всех треугольников
                 {
-                    Draw.Triangle(objects[i].tris[j], objects[i].move, image, color);
+                    Draw.Triangle(objects[i].tris[j], objects[i].move, r, color);
                 }
             }
 
             if (activeObject != -1) // пишем в углу имя активной модели
             {
-                Graphics g = Graphics.FromImage(image);
-                Font drawFont = new Font("Arial", 7);
-                String drawString = "Active object: " + objects[activeObject].name;
-                Color red = ColorTranslator.FromHtml("#d69d85");
-                SolidBrush drawBrush = new SolidBrush(red);
-                PointF drawPoint = new PointF(0,54);
-                g.DrawString(drawString, drawFont, drawBrush, drawPoint);
-                g.Dispose();
+                //
+                //Graphics g = Graphics.FromImage(image);
+                //Font drawFont = new Font("Arial", 7);
+                //String drawString = "Active object: " + objects[activeObject].name;
+                //Color red = ColorTranslator.FromHtml("#d69d85");
+                //SolidBrush drawBrush = new SolidBrush(red);
+                //PointF drawPoint = new PointF(0,54);
+                //g.DrawString(drawString, drawFont, drawBrush, drawPoint);
+                //g.Dispose();
             }
         }
 
@@ -195,13 +201,10 @@ namespace Scene3D
         {
             if (perspective)
             {
+                // Центр дисплея
                 double oX = w / 2;
                 double oY = h / 2;
 
-                //double D = w * 2 / h;
-                //double Ofs = w * 2 / h;
-                //double D = 173;
-                //double Ofs = 73;
                 double D = w;
                 double Ofs = h;
 
@@ -218,7 +221,6 @@ namespace Scene3D
             }
             else
             {
-                // Центр дисплея
                 double oX = w / 2;
                 double oY = h / 2;
 
