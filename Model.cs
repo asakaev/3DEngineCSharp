@@ -13,7 +13,7 @@ namespace Scene3D
         public Vertex scale = new Vertex(1, 1, 1);
         public Vertex rotation = new Vertex(0, 0, 0);
         public Vertex move = new Vertex(0, 0, 0);
-        public Scene sc;
+        public Scene s;
 
         public void AddVertex(double x, double y, double z)
         {

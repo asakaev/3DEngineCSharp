@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+
 namespace Scene3D
 {
-    // Triangle (faces, грани)
-    class Polygon
+    class Polygon // Triangle (faces, грани)
     {
         public Vertex[] tri = new Vertex[3];
 

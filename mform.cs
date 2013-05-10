@@ -12,26 +12,41 @@ namespace Scene3D
         Timer timer = new Timer(); // таймер для анимации
         Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
-
         double y; // для поворотов
         Model ufo;
 
         public mform()
         {
             InitializeComponent();
-
-            Text = Application.ProductName + " v" + Application.ProductVersion; // заголовок
+            Text = Application.ProductName;
+            Text += " v" + Application.ProductVersion;
             render = new Rasterizer(sp.Panel1);
             timer.Interval = 15; // between 1 ms and 20 ms разброс т.к. не реалтайм
             timer.Tick += new EventHandler(timer_Tick);
             timer.Enabled = true;
+            LoadModels();
+            scene.cam.AppendMove(0, 100, -80);
+            scene.cam.AppendRotate(-60, 0, 0);
+        }
 
-            // добавляем модели и их начальные значения
+        void timer_Tick(object sender, EventArgs e)
+        {
+            ufo.AppendRotate(0.3, 0.3, 0.3);
+            ufo.AppendMove(0, mv, 0);
+            if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
+            scene.AppendRotate(0, y, 0);
+            scene.DrawScene(render);
+            render.BufferToPanel();
+            UpdateKeys();
+        }
+
+        void LoadModels() // добавляем модели и их начальные значения
+        {         
             ufo = ObjLoader.Load("ufo.obj", 2);
             scene.AddObject(ufo);
             ufo.AppendMove(0, 50, 0); // в метрах
 
-            Model rassv = ObjLoader.Load("Rassv.obj", 75/4.5);
+            Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
             scene.AddObject(rassv);
             rassv.AppendMove(0, 0, 100);
 
@@ -57,7 +72,7 @@ namespace Scene3D
             busStop2.AppendMove(110, 0, 80);
             busStop2.AppendRotate(0, 180, 0);
 
-            Model obraz = ObjLoader.Load("obr.obj", 55/4);
+            Model obraz = ObjLoader.Load("obr.obj", 55 / 4);
             scene.AddObject(obraz);
             obraz.AppendMove(-140, 0, 76);
 
@@ -68,22 +83,19 @@ namespace Scene3D
             Model tree = ObjLoader.Load("Tree.obj", 2);
             scene.AddObject(tree);
             tree.AppendMove(-20, 0, -40);
-
-            scene.cam.AppendMove(0, 100, -80);
-            scene.cam.AppendRotate(-60, 0, 0);
         }
 
         void UpdateKeys()
         {
-            if (Keyboard.IsKeyDown('W')) { scene.cam.AppendMove(0, 0, 10); }
-            if (Keyboard.IsKeyDown('A')) { scene.cam.AppendMove(-10, 0, 0); }
-            if (Keyboard.IsKeyDown('S')) { scene.cam.AppendMove(0, 0, -10); }
-            if (Keyboard.IsKeyDown('D')) { scene.cam.AppendMove(10, 0, 0); }
+            if (Kb.IsKeyDown('W')) { scene.cam.AppendMove(0, 0, 5); }
+            if (Kb.IsKeyDown('A')) { scene.cam.AppendMove(-5, 0, 0); }
+            if (Kb.IsKeyDown('S')) { scene.cam.AppendMove(0, 0, -5); }
+            if (Kb.IsKeyDown('D')) { scene.cam.AppendMove(5, 0, 0); }
 
-            if (Keyboard.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
-            if (Keyboard.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
+            if (Kb.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
+            if (Kb.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
 
-            if (Keyboard.IsKeyDown('T'))
+            if (Kb.IsKeyDown('T'))
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
@@ -91,7 +103,7 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('F'))
+            if (Kb.IsKeyDown('F'))
             {
                 if (scene.activeObject != -1)
                 {
@@ -99,7 +111,7 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('G'))
+            if (Kb.IsKeyDown('G'))
             {
                 if (scene.activeObject != -1)
                 {
@@ -107,7 +119,7 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('H'))
+            if (Kb.IsKeyDown('H'))
             {
                 if (scene.activeObject != -1)
                 {
@@ -115,7 +127,7 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('R'))
+            if (Kb.IsKeyDown('R'))
             {
                 if (scene.activeObject != -1)
                 {
@@ -123,7 +135,7 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('Y'))
+            if (Kb.IsKeyDown('Y'))
             {
                 if (scene.activeObject != -1)
                 {
@@ -131,10 +143,18 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('E')) { scene.ActivateNext(); }
-            if (Keyboard.IsKeyDown('Q')) { scene.ActivatePrev(); }
+            if (Kb.IsKeyDown('E'))
+            {
+                scene.ActivateNext();
+                UpdateInfo();
+            }
+            if (Kb.IsKeyDown('Q'))
+            {
+                scene.ActivatePrev();
+                UpdateInfo();
+            }
 
-            if (Keyboard.IsKeyDown('X')) // увеличение объекта
+            if (Kb.IsKeyDown('X')) // увеличение объекта
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
@@ -143,7 +163,7 @@ namespace Scene3D
                     scene.objects[scene.activeObject].AppendScale(x,y,z);
                 }
             }
-            if (Keyboard.IsKeyDown('Z')) // уменьшение
+            if (Kb.IsKeyDown('Z')) // уменьшение
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
@@ -153,31 +173,20 @@ namespace Scene3D
                 }
             }
 
-            if (Keyboard.IsKeyDown('O')) // поворот
+            if (Kb.IsKeyDown('O')) // поворот
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
                     scene.objects[scene.activeObject].AppendRotate(0, 3, 0);
                 }
             }
-            if (Keyboard.IsKeyDown('P')) // поворот
+            if (Kb.IsKeyDown('P')) // поворот
             {
                 if (scene.activeObject != -1) // если какой-нибудь выбран
                 {
                     scene.objects[scene.activeObject].AppendRotate(0, -3, 0);
                 }
             }
-        }
-
-        void timer_Tick(object sender, EventArgs e)
-        {
-            ufo.AppendRotate(0.3, 0.3, 0.3);
-            ufo.AppendMove(0, mv, 0);
-            if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
-            scene.AppendRotate(0, y, 0);
-            scene.DrawScene(render);
-            render.BufferToPanel();
-            UpdateKeys();
         }
 
         private void barZ_Scroll(object sender, EventArgs e)
@@ -268,6 +277,19 @@ namespace Scene3D
         private void button5_Click_1(object sender, EventArgs e)
         {
             scene.cam.AppendRotate(0, 0, -1);
+        }
+
+        private void button1_Click(object sender, EventArgs e) { UpdateInfo(); }
+
+        void UpdateInfo()
+        {
+            Text = Application.ProductName;
+            Text += " v" + Application.ProductVersion;
+            Text += ", Poly: " + Convert.ToString(scene.polyCount);
+            Text += ", Points: " + Convert.ToString(scene.vtxCount);
+            Text += ", Objects: " + Convert.ToString(scene.objectsCount);
+            Text += ", FPS: " + render.GetFPS();
+            Text += scene.GetActiveName();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Scene3D
     {
         private long t0;
         private long t1;
-        private int fps;
+        public int _fps;
         private int frames;
         Stopwatch stopWatch = new Stopwatch();
 
@@ -24,22 +24,10 @@ namespace Scene3D
             t1 = stopWatch.ElapsedMilliseconds;
             if (t1 - t0 >= 1000)
             {
-                fps = frames;
+                _fps = frames;
                 t0 = t1;
                 frames = 0;
             }
-        }
-
-        public void Draw(Bitmap image)
-        {
-            Graphics g = Graphics.FromImage(image);
-            Font drawFont = new Font("Arial", 7);
-            String drawString = "FPS: " + Convert.ToString(fps);
-            Color red = ColorTranslator.FromHtml("#d69d85");
-            SolidBrush drawBrush = new SolidBrush(red);
-            PointF drawPoint = new PointF(0, 11);
-            g.DrawString(drawString, drawFont, drawBrush, drawPoint);
-            g.Dispose();
         }
     }
 }

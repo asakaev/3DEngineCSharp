@@ -28,7 +28,7 @@ namespace Scene3D
         public void AddObject(Model obj)
         {
             objects.Add(obj);
-            obj.sc = this; // устанавливаем сцену родителем для всех моделей
+            obj.s = this; // устанавливаем сцену родителем для всех моделей
             objectsCount++;
 
             // обновляем количество полигонов и вертексов в сцене
@@ -45,45 +45,42 @@ namespace Scene3D
         {
             DoTransform(); // Пересчет всех координат
             Projection(r.w, r.h);
-
             Draw.Background(r);
-            Color c = ColorTranslator.FromHtml("#4ec9b0"); // green
-            //Draw.SetPixel(r, c, r.w-1, r.h-1);
-            Draw.SetPixel(r, c, 10, 10);
-
+            //CColor c = ColorTranslator.FromHtml("#4ec9b0"); // green
+            CColor c = new CColor(78, 201, 176); // green
             //Draw.Background(render); // отрисовка фона
             //Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
 
             for (int i = 0; i < objectsCount; i++) // для всех объектов сцены
             {
-                Color color;
-                if (objects[i].active == true) // выбираем цвет, которым рисовать объект
+                if (objects[i].active == false) // выбираем цвет, которым рисовать объект
                 {
-                    color = ColorTranslator.FromHtml("#d69d85"); // orange
+                    c.R = 78; // green
+                    c.G = 201;
+                    c.B = 176;
                 }
                 else
                 {
-                    color = ColorTranslator.FromHtml("#4ec9b0"); // green
+                    c.R = 214; // orange
+                    c.G = 157;
+                    c.B = 133;
                 }
 
                 for (int j = 0; j < objects[i].polyCount; j++) // для всех треугольников
                 {
-                    Draw.Triangle(objects[i].tris[j], objects[i].move, r, color);
+                    Draw.Triangle(r, c, objects[i].tris[j]);
                 }
             }
+        }
 
-            if (activeObject != -1) // пишем в углу имя активной модели
+        public string GetActiveName()
+        {
+            if (activeObject != -1)
             {
-                //
-                //Graphics g = Graphics.FromImage(image);
-                //Font drawFont = new Font("Arial", 7);
-                //String drawString = "Active object: " + objects[activeObject].name;
-                //Color red = ColorTranslator.FromHtml("#d69d85");
-                //SolidBrush drawBrush = new SolidBrush(red);
-                //PointF drawPoint = new PointF(0,54);
-                //g.DrawString(drawString, drawFont, drawBrush, drawPoint);
-                //g.Dispose();
+                return ", Active object: " + objects[activeObject].name;
             }
+            else return null;
+            
         }
 
         public void ActivateNext()
@@ -160,15 +157,13 @@ namespace Scene3D
 
         public void DoTransform()
         {
-            // Операции с моделями
-            for (int i = 0; i < objectsCount; i++)
+            for (int i = 0; i < objectsCount; i++) // Операции с моделями
             {
                 objects[i].ScaleRotateMove();
             }
-
             // Теперь со сценой и камерой
             ScaleRotateMove();
-            cam.MoveRotate();
+            cam.RotateMove();
         }
 
         public void ScaleRotateMove()

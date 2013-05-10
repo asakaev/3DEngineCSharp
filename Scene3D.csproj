@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CColor.cs" />
     <Compile Include="ObjLoader.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Draw.cs" />
@@ -71,7 +72,7 @@
       <DependentUpon>mform.cs</DependentUpon>
     </Compile>
     <Compile Include="Model.cs" />
-    <Compile Include="Keyboard.cs" />
+    <Compile Include="Kb.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

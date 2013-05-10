@@ -1,6 +1,6 @@
 ﻿namespace Scene3D
 {
-    static class Keyboard
+    static class Kb // keyboard
     {
         public static bool IsKeyDown(int key)
         {

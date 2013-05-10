@@ -6,10 +6,7 @@
         public Vertex move = new Vertex(0, 0, 0);
         Scene s;
 
-        public Camera(Scene _s)
-        {
-            s = _s;
-        }
+        public Camera(Scene _s) { s = _s; }
 
         public void AppendRotate(double x, double y, double z)
         {
@@ -30,7 +27,7 @@
             move.z += z;
         }
 
-        public void MoveRotate()
+        public void RotateMove()
         {
             for (int i = 0; i < s.objectsCount; i++)
             {

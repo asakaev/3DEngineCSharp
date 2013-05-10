@@ -8,30 +8,29 @@ namespace Scene3D
 {
     class Rasterizer
     {
-        private Panel pan; // «устройство вывода», монитор (в нашем случае панель)
+        private Panel p; // «устройство вывода», монитор (в нашем случае панель)
         private Bitmap buffer;
         public int w;
         public int h;
         private FPS fps = new FPS(); // считает и показывает фпс
         public byte[] data;
+        Graphics g;
 
-        public Rasterizer(Panel sur)
+        public Rasterizer(Panel _p)
         {
-            pan = sur;
-            w = pan.ClientSize.Width;
-            h = pan.ClientSize.Height;
+            p = _p;
+            w = p.ClientSize.Width;
+            h = p.ClientSize.Height;
             data = new byte[w * h * 3]; // RGB byte array
             buffer = new Bitmap(w, h, PixelFormat.Format24bppRgb);
+            g = p.CreateGraphics();
         }
 
         public void BufferToPanel() // Выводит сформированный кадр на панель
         {
             ByteArrayToBitmap();
-            Graphics g = pan.CreateGraphics();
-            fps.Draw(buffer);
             g.DrawImage(buffer, 0, 0, new Rectangle(0, 0, w, h), GraphicsUnit.Pixel);
             fps.SetFrameRendered();
-            g.Dispose();
             CheckBuffer();
         }
 
@@ -56,18 +55,20 @@ namespace Scene3D
         public void CheckBuffer()
         {
             // отслеживаем изменение размера формы
-            if ((w != pan.ClientSize.Width) || (h != pan.ClientSize.Height))
+            if ((w != p.ClientSize.Width) || (h != p.ClientSize.Height))
             {
-                w = pan.ClientSize.Width;
-                h = pan.ClientSize.Height;
-
+                w = p.ClientSize.Width;
+                h = p.ClientSize.Height;
                 data = new byte[w * h * 3];
                 Bitmap temp = buffer;
                 buffer = new Bitmap(w, h, PixelFormat.Format32bppPArgb);
                 temp.Dispose();
+                Graphics tmp = g;
+                tmp.Dispose();
+                g = p.CreateGraphics();
             }
         }
 
-
+        public string GetFPS() { return Convert.ToString(fps._fps); }
     }
 }
