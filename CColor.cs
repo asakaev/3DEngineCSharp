@@ -2,9 +2,7 @@
 {
     class CColor
     {
-        public byte R;
-        public byte G;
-        public byte B;
+        public byte R, G, B;
 
         public CColor(byte _r, byte _g, byte _b)
         {

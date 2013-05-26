@@ -1,47 +1,105 @@
-﻿using Scene3D;
-using System;
+﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
+using System.Drawing.Imaging;
+using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace Scene3D
 {
-    public partial class mform : Form
-    {
-        Rasterizer render; // рендер (виртуальный монитор)
-        Timer timer = new Timer(); // таймер для анимации
+	public partial class Form1 : Form
+	{
+		private System.Timers.Timer fpstimer;
+		private Thread renderthread;
+		private int fps;
+        //Rasterizer render; // рендер (виртуальный монитор)
         Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
-        double y; // для поворотов
+        //double y; // для поворотов
         Model ufo;
 
-        public mform()
-        {
-            InitializeComponent();
-            Text = Application.ProductName;
-            Text += " v" + Application.ProductVersion;
-            render = new Rasterizer(sp.Panel1);
-            timer.Interval = 15; // between 1 ms and 20 ms разброс т.к. не реалтайм
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Enabled = true;
+		public Form1()
+		{
+			InitializeComponent();
+            //render = new Rasterizer();
             LoadModels();
             scene.cam.AppendMove(0, 100, -80);
             scene.cam.AppendRotate(-60, 0, 0);
-        }
+		}
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            ufo.AppendRotate(0.3, 0.3, 0.3);
-            ufo.AppendMove(0, mv, 0);
-            if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
-            scene.AppendRotate(0, y, 0);
-            scene.DrawScene(render);
-            render.BufferToPanel();
-            UpdateKeys();
-        }
+		public void Update(MethodInvoker callback)
+		{
+			if (IsDisposed || Disposing)
+				return;
+
+			try
+			{
+				if (this.InvokeRequired)
+					this.Invoke(callback);
+				else
+					callback();
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+			}
+		}
+
+		private void Form1_Shown(object sender, EventArgs e)
+		{
+			fpstimer = new System.Timers.Timer(1000);
+			fpstimer.Elapsed += (sender1, args) =>
+			{
+				Update(delegate
+				{
+                    Text = Application.ProductName;
+                    Text += " v" + Application.ProductVersion;
+                    Text += ", Poly: " + Convert.ToString(scene.polyCount);
+                    Text += ", Points: " + Convert.ToString(scene.vtxCount);
+                    Text += ", Objects: " + Convert.ToString(scene.objectsCount);
+                    Text += ", FPS: " + fps;
+                    Text += scene.GetActiveName();
+                    fps = 0;
+				});
+			};
+			fpstimer.Start();
+
+			renderthread = new Thread(() =>
+			{
+				while (true)
+					Render();
+			});
+			renderthread.Start();
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			renderthread.Abort();
+			fpstimer.Stop();
+		}
+
+		private void Render()
+		{
+			lock (razorPainterWFCtl1.RazorLock)
+			{
+                ufo.AppendRotate(0.3, 0.3, 0.3);
+                ufo.AppendMove(0, mv, 0);
+                if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
+                scene.AppendRotate(0, 0.01, 0);
+                UpdateKeys();
+
+                scene.DrawScene(razorPainterWFCtl1.RP);
+                //int w = razorPainterWFCtl1.Width;
+                //int h = razorPainterWFCtl1.Height;
+                //render.CheckBuffer(w, h);
+                //razorPainterWFCtl1._data = render.data;
+				razorPainterWFCtl1.RazorPaint();
+			}
+			fps++;
+		}
 
         void LoadModels() // добавляем модели и их начальные значения
-        {         
+        {
             ufo = ObjLoader.Load("ufo.obj", 2);
             scene.AddObject(ufo);
             ufo.AppendMove(0, 50, 0); // в метрах
@@ -91,6 +149,9 @@ namespace Scene3D
             if (Kb.IsKeyDown('A')) { scene.cam.AppendMove(-5, 0, 0); }
             if (Kb.IsKeyDown('S')) { scene.cam.AppendMove(0, 0, -5); }
             if (Kb.IsKeyDown('D')) { scene.cam.AppendMove(5, 0, 0); }
+
+            if (Kb.IsKeyDown('C')) { scene.cam.AppendRotate(1, 0, 0); }
+            if (Kb.IsKeyDown('V')) { scene.cam.AppendRotate(-1, 0, 0); }
 
             if (Kb.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
             if (Kb.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
@@ -146,12 +207,10 @@ namespace Scene3D
             if (Kb.IsKeyDown('E'))
             {
                 scene.ActivateNext();
-                UpdateInfo();
             }
             if (Kb.IsKeyDown('Q'))
             {
                 scene.ActivatePrev();
-                UpdateInfo();
             }
 
             if (Kb.IsKeyDown('X')) // увеличение объекта
@@ -160,7 +219,7 @@ namespace Scene3D
                 {
                     double x, y, z;
                     x = y = z = -0.01;
-                    scene.objects[scene.activeObject].AppendScale(x,y,z);
+                    scene.objects[scene.activeObject].AppendScale(x, y, z);
                 }
             }
             if (Kb.IsKeyDown('Z')) // уменьшение
@@ -189,107 +248,5 @@ namespace Scene3D
             }
         }
 
-        private void barZ_Scroll(object sender, EventArgs e)
-        {
-            y = (double)barZ.Value / 10;
-            label3.Text = Convert.ToString(y) + "     ";
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            double x, y, z;
-            x = y = z = 0.1;
-            scene.AppendScale(x,y,z);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            double x, y, z;
-            x = y = z = -0.1;
-            scene.AppendScale(x, y, z);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(-1, 0, 0);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(1, 0, 0);
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(10, 0, 0);
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(-10, 0, 0);
-        }
-
-        private void button11_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(0, 10, 0);
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(0, -10, 0);
-        }
-
-        private void button13_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(0, 0, 10);
-        }
-
-        private void button12_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendMove(0, 0, -10);
-        }
-
-        private void button14_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(1, 0, 0);
-        }
-
-        private void button15_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(-1, 0, 0);
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(0, 1, 0);
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(0, -1, 0);
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(0, 0, 1);
-        }
-
-        private void button5_Click_1(object sender, EventArgs e)
-        {
-            scene.cam.AppendRotate(0, 0, -1);
-        }
-
-        private void button1_Click(object sender, EventArgs e) { UpdateInfo(); }
-
-        void UpdateInfo()
-        {
-            Text = Application.ProductName;
-            Text += " v" + Application.ProductVersion;
-            Text += ", Poly: " + Convert.ToString(scene.polyCount);
-            Text += ", Points: " + Convert.ToString(scene.vtxCount);
-            Text += ", Objects: " + Convert.ToString(scene.objectsCount);
-            Text += ", FPS: " + render.GetFPS();
-            Text += scene.GetActiveName();
-        }
-    }
+	}
 }

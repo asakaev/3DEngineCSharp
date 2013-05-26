@@ -14,7 +14,7 @@ namespace Scene3D
             // Для распознования точки точкой, а не запятой
             NumberFormatInfo provider = new NumberFormatInfo();
             provider.NumberDecimalSeparator = ".";
-            string path = @"..\..\models\" + fname;
+            string path = @"..\models\" + fname;
 
             if (File.Exists(path)) // проверяем есть ли файл
             {

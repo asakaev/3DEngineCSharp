@@ -27,29 +27,14 @@ namespace Scene3D
             drawLine(r, c, x1, y1, x2, y2);
         }
 
-        public static void Background(Rasterizer r)
-        {
-            int size = r.w * r.h * 3;
-            for (int i = 0; i < size; i += 3)
-            {
-                // Если пиксель уже имеет цвет фона
-                if ((r.data[i + 2] != 30) && (r.data[i + 1] != 30) && (r.data[i] != 30))              
-                {
-                    r.data[i + 2] = 30; // R
-                    r.data[i + 1] = 30; // G
-                    r.data[i] = 30; // B
-                }
-            }
-        }
-
         public static void SetPixel(Rasterizer r, CColor c, int _x, int _y)
         {
             // если мы не за пределами
             // и если цвет отличается
-            if ( (_x >= 0) && (_y >= 0) && (_x < r.w) && (_y < r.h) )
+            if ((_x >= 0) && (_y >= 0) && (_x < r.Width) && (_y < r.Height))
             {
-                int idx = (_y * r.w) * 3 + (_x * 3);
-                if ((r.data[idx + 2] != c.R) && (r.data[idx + 1] != c.G) && (r.data[idx] != c.B))
+                int idx = (_y * r.Width) * 4 + (_x * 4);
+                if ((r.data[idx] != c.B)) // Только одну компоненту смотрим
                 {
                     r.data[idx + 2] = c.R; // R
                     r.data[idx + 1] = c.G; // G

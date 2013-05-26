@@ -44,12 +44,9 @@ namespace Scene3D
         public void DrawScene(Rasterizer r)
         {
             DoTransform(); // Пересчет всех координат
-            Projection(r.w, r.h);
-            Draw.Background(r);
-            //CColor c = ColorTranslator.FromHtml("#4ec9b0"); // green
+            Projection(r.Width, r.Height);
+            //r.FillBack();
             CColor c = new CColor(78, 201, 176); // green
-            //Draw.Background(render); // отрисовка фона
-            //Draw.PolyPointsObjectsCount(this, image); // инфа о сцене в углу
 
             for (int i = 0; i < objectsCount; i++) // для всех объектов сцены
             {
