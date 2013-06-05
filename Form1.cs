@@ -12,19 +12,19 @@ namespace Scene3D
 		private System.Timers.Timer fpstimer;
 		private Thread renderthread;
 		private int fps;
-        //Rasterizer render; // рендер (виртуальный монитор)
         Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
         //double y; // для поворотов
         Model ufo;
+        Model cube;
 
 		public Form1()
 		{
 			InitializeComponent();
-            //render = new Rasterizer();
             LoadModels();
-            scene.cam.AppendMove(0, 100, -80);
-            scene.cam.AppendRotate(-60, 0, 0);
+            //scene.cam.AppendMove(0, 100, -80);
+            //scene.cam.AppendRotate(-60, 0, 0);
+            scene.cam.AppendMove(0, 0, -500);
 		}
 
 		public void Update(MethodInvoker callback)
@@ -59,6 +59,7 @@ namespace Scene3D
                     Text += ", Objects: " + Convert.ToString(scene.objectsCount);
                     Text += ", FPS: " + fps;
                     Text += scene.GetActiveName();
+                    Text += ", DIS: " + scene.cam.GetDistance();
                     fps = 0;
 				});
 			};
@@ -82,17 +83,16 @@ namespace Scene3D
 		{
 			lock (razorPainterWFCtl1.RazorLock)
 			{
-                ufo.AppendRotate(0.3, 0.3, 0.3);
-                ufo.AppendMove(0, mv, 0);
-                if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
-                scene.AppendRotate(0, 0.01, 0);
-                UpdateKeys();
+                //ufo.AppendRotate(0.3, 0.3, 0.3);
+                //ufo.AppendMove(0, mv, 0);
+                //if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
+                //scene.AppendRotate(0, 0.01, 0);
+                //if (true) { Close(); }
 
+                if (scene.cam.IsIntersectWith(cube)) { Close(); }
+
+                UpdateKeys();
                 scene.DrawScene(razorPainterWFCtl1.RP);
-                //int w = razorPainterWFCtl1.Width;
-                //int h = razorPainterWFCtl1.Height;
-                //render.CheckBuffer(w, h);
-                //razorPainterWFCtl1._data = render.data;
 				razorPainterWFCtl1.RazorPaint();
 			}
 			fps++;
@@ -100,47 +100,51 @@ namespace Scene3D
 
         void LoadModels() // добавляем модели и их начальные значения
         {
-            ufo = ObjLoader.Load("ufo.obj", 2);
-            scene.AddObject(ufo);
-            ufo.AppendMove(0, 50, 0); // в метрах
+            cube = ObjLoader.Load("cube.obj", 100);
+            scene.AddObject(cube);
+            cube.AppendMove(0, 50, 0); // в метрах
 
-            Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
-            scene.AddObject(rassv);
-            rassv.AppendMove(0, 0, 100);
+            //ufo = ObjLoader.Load("ufo.obj", 2);
+            //scene.AddObject(ufo);
+            //ufo.AppendMove(0, 50, 0); // в метрах
 
-            Model liga = ObjLoader.Load("liga.obj", 50 / 18);
-            scene.AddObject(liga);
-            liga.AppendMove(95, 0, 100);
+            //Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
+            //scene.AddObject(rassv);
+            //rassv.AppendMove(0, 0, 100);
 
-            Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
-            scene.AddObject(mir);
-            mir.AppendMove(150, 0, 100);
+            //Model liga = ObjLoader.Load("liga.obj", 50 / 18);
+            //scene.AddObject(liga);
+            //liga.AppendMove(95, 0, 100);
 
-            Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
-            scene.AddObject(ammo);
-            ammo.AppendRotate(0, 54, 0);
-            ammo.AppendMove(178, 0, -110);
+            //Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
+            //scene.AddObject(mir);
+            //mir.AppendMove(150, 0, 100);
 
-            Model busStop1 = ObjLoader.Load("ost.obj", 15);
-            scene.AddObject(busStop1);
-            busStop1.AppendMove(50, 0, -30);
+            //Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
+            //scene.AddObject(ammo);
+            //ammo.AppendRotate(0, 54, 0);
+            //ammo.AppendMove(178, 0, -110);
 
-            Model busStop2 = ObjLoader.Load("ost.obj", 15);
-            scene.AddObject(busStop2);
-            busStop2.AppendMove(110, 0, 80);
-            busStop2.AppendRotate(0, 180, 0);
+            //Model busStop1 = ObjLoader.Load("ost.obj", 15);
+            //scene.AddObject(busStop1);
+            //busStop1.AppendMove(50, 0, -30);
 
-            Model obraz = ObjLoader.Load("obr.obj", 55 / 4);
-            scene.AddObject(obraz);
-            obraz.AppendMove(-140, 0, 76);
+            //Model busStop2 = ObjLoader.Load("ost.obj", 15);
+            //scene.AddObject(busStop2);
+            //busStop2.AppendMove(110, 0, 80);
+            //busStop2.AppendRotate(0, 180, 0);
 
-            Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
-            scene.AddObject(gogol);
-            gogol.AppendMove(-200, 0, -155);
+            //Model obraz = ObjLoader.Load("obr.obj", 55 / 4);
+            //scene.AddObject(obraz);
+            //obraz.AppendMove(-140, 0, 76);
 
-            Model tree = ObjLoader.Load("Tree.obj", 2);
-            scene.AddObject(tree);
-            tree.AppendMove(-20, 0, -40);
+            //Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
+            //scene.AddObject(gogol);
+            //gogol.AppendMove(-200, 0, -155);
+
+            //Model tree = ObjLoader.Load("Tree.obj", 2);
+            //scene.AddObject(tree);
+            //tree.AppendMove(-20, 0, -40);
         }
 
         void UpdateKeys()

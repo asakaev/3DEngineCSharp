@@ -1,10 +1,12 @@
-﻿namespace Scene3D
+﻿using System;
+namespace Scene3D
 {
     class Camera
     {
         public Vertex rotation = new Vertex(0, 0, 0);
         public Vertex move = new Vertex(0, 0, 0);
         Scene s;
+        public double dis;
 
         public Camera(Scene _s) { s = _s; }
 
@@ -46,6 +48,25 @@
                     m.points[j].z -= move.z;
                 }
             }
+        }
+
+        public bool IsIntersectWith(Model o)
+        {
+            double magic = 110;
+            double x = Math.Pow((move.x - o.move.x), 2);
+            double y = Math.Pow((move.y - o.move.y), 2);
+            double z = Math.Pow((move.z - o.move.z), 2);
+
+            double distance = Math.Sqrt(x + y + z);
+            dis = distance;
+
+            if (distance <= magic) { return true; }
+            else { return false; }
+        }
+
+        public string GetDistance()
+        {
+            return Convert.ToString(dis);
         }
     }
 }

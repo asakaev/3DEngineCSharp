@@ -45,7 +45,7 @@ namespace Scene3D
         {
             DoTransform(); // Пересчет всех координат
             Projection(r.Width, r.Height);
-            //r.FillBack();
+
             CColor c = new CColor(78, 201, 176); // green
 
             for (int i = 0; i < objectsCount; i++) // для всех объектов сцены
@@ -77,7 +77,6 @@ namespace Scene3D
                 return ", Active object: " + objects[activeObject].name;
             }
             else return null;
-            
         }
 
         public void ActivateNext()
@@ -198,7 +197,7 @@ namespace Scene3D
                 double oY = h / 2;
 
                 double D = w;
-                double Ofs = h;
+                double Ofs = h/16; // расстояние от экранной плоскости до объекта
 
                 for (int i = 0; i < objectsCount; i++)
                 {

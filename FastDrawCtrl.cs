@@ -1,9 +1,4 @@
-﻿// Test control fronend for WindowsForms for RazorGDIPainter library
-//   (c) Mokrov Ivan
-// special for habrahabr.ru
-// under MIT license
-
-using Scene3D;
+﻿using Scene3D;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
