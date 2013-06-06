@@ -159,7 +159,7 @@ namespace Scene3D
             }
             // Теперь со сценой и камерой
             ScaleRotateMove();
-            cam.RotateMove();
+            cam.MoveRotate();
         }
 
         public void ScaleRotateMove()

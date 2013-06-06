@@ -24,7 +24,7 @@ namespace Scene3D
             LoadModels();
             //scene.cam.AppendMove(0, 100, -80);
             //scene.cam.AppendRotate(-60, 0, 0);
-            scene.cam.AppendMove(0, 0, -500);
+            scene.cam.AppendMove(0, 0, -100);
 		}
 
 		public void Update(MethodInvoker callback)
@@ -89,7 +89,7 @@ namespace Scene3D
                 //scene.AppendRotate(0, 0.01, 0);
                 //if (true) { Close(); }
 
-                if (scene.cam.IsIntersectWith(cube)) { Close(); }
+                //if (scene.cam.IsIntersectWith(cube)) { Close(); }
 
                 UpdateKeys();
                 scene.DrawScene(razorPainterWFCtl1.RP);
@@ -100,17 +100,17 @@ namespace Scene3D
 
         void LoadModels() // добавляем модели и их начальные значения
         {
-            cube = ObjLoader.Load("cube.obj", 100);
-            scene.AddObject(cube);
-            cube.AppendMove(0, 50, 0); // в метрах
+            //cube = ObjLoader.Load("cube.obj", 300);
+            //scene.AddObject(cube);
+            //cube.AppendMove(0, 50, 0); // в метрах
 
             //ufo = ObjLoader.Load("ufo.obj", 2);
             //scene.AddObject(ufo);
             //ufo.AppendMove(0, 50, 0); // в метрах
 
-            //Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
-            //scene.AddObject(rassv);
-            //rassv.AppendMove(0, 0, 100);
+            Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
+            scene.AddObject(rassv);
+            rassv.AppendMove(0, 0, 100);
 
             //Model liga = ObjLoader.Load("liga.obj", 50 / 18);
             //scene.AddObject(liga);
@@ -156,6 +156,12 @@ namespace Scene3D
 
             if (Kb.IsKeyDown('C')) { scene.cam.AppendRotate(1, 0, 0); }
             if (Kb.IsKeyDown('V')) { scene.cam.AppendRotate(-1, 0, 0); }
+
+            if (Kb.IsKeyDown('B')) { scene.cam.AppendRotate(0, 1, 0); }
+            if (Kb.IsKeyDown('N')) { scene.cam.AppendRotate(0, -1, 0); }
+
+            if (Kb.IsKeyDown('U')) { scene.AppendRotate(0, 1, 0); }
+            if (Kb.IsKeyDown('I')) { scene.AppendRotate(0, -1, 0); }
 
             if (Kb.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
             if (Kb.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }

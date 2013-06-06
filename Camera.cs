@@ -24,35 +24,61 @@ namespace Scene3D
 
         public void AppendMove(double x, double y, double z)
         {
+            double backX = move.x;
+            double backY = move.y;
+            double backZ = move.z;
+
             move.x += x;
             move.y += y;
             move.z += z;
+
+            if (CamInsectWithModels()) // проверка пересечения камеры с моделями
+            {
+                move.x = backX;
+                move.y = backY;
+                move.z = backZ;
+            }
+
         }
 
-        public void RotateMove()
+        public void MoveRotate()
         {
             for (int i = 0; i < s.objectsCount; i++)
             {
                 Model m = s.objects[i];
                 for (int j = 0; j < m.vtxCount; j++)
                 {
+                    // Move
+                    m.points[j].x -= move.x;
+                    m.points[j].y -= move.y;
+                    m.points[j].z -= move.z;
+
                     // Rotation
                     double xR = rotation.x;
                     double yR = rotation.y;
                     double zR = rotation.z;
                     Transform.RotateVertex(m.points[j], xR, yR, zR);
-
-                    // Move
-                    m.points[j].x -= move.x;
-                    m.points[j].y -= move.y;
-                    m.points[j].z -= move.z;
                 }
             }
         }
 
+        public bool CamInsectWithModels() // проверка пересечения каждой модели с камерой
+        {
+            bool flag = false;
+            int i = 0;
+
+            while ((!flag) && (i < s.objectsCount))
+            {
+                flag = IsIntersectWith(s.objects[i++]);
+            }
+
+            if (flag) { return true; }
+            else { return false; }
+        }
+
         public bool IsIntersectWith(Model o)
         {
-            double magic = 110;
+            double magic = o.distance * 0.8; // не знаю почему 8
             double x = Math.Pow((move.x - o.move.x), 2);
             double y = Math.Pow((move.y - o.move.y), 2);
             double z = Math.Pow((move.z - o.move.z), 2);

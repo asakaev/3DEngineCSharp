@@ -15,37 +15,26 @@ namespace Scene3D
         public Vertex rotation = new Vertex(0, 0, 0);
         public Vertex move = new Vertex(0, 0, 0);
         public Scene s;
-        public Vertex centerOfMass = new Vertex(0, 0, 0);
         public double distance;
+
+        public Model()
+        {
+            CheckCenterAndDistance();
+        }
 
         public void CheckCenterAndDistance()
         {
-            double px = 0;
-            double py = 0;
-            double pz = 0;
-
-            for (int i = 0; i < vtxCount; i++ ) // ищем центр масс
-            {
-                px += points[i].x * scale.x + move.x;
-                py += points[i].y * scale.y + move.y;
-                pz += points[i].z * scale.z + move.z;
-            }
-
-            centerOfMass.x = px / points.Count;
-            centerOfMass.y = py / points.Count;
-            centerOfMass.z = pz / points.Count;
-
-            double radius = 0;
+            double min = 0;
             for (int i = 0; i < vtxCount; i++) // расстояние от центра масс до дальней точки фигуры
             {
-                double length = Math.Sqrt(Math.Pow((px - (scale.x * points[i].x + move.x)), 2) +
-                    Math.Pow((py - (scale.y * points[i].y + move.y)), 2) +
-                    Math.Pow((pz - (scale.z * points[i].z + move.z)), 2));
+                double length = Math.Sqrt(
+                    Math.Pow((move.x - (scale.x * points[i].x + move.x)), 2) +
+                    Math.Pow((move.y - (scale.y * points[i].y + move.y)), 2) +
+                    Math.Pow((move.z - (scale.z * points[i].z + move.z)), 2));
 
-                if (length > radius) { radius = length; }
+                if (length > min) { min = length; }
             }
-
-            distance = radius;
+            distance = min;
         }
 
         public void AddVertex(double x, double y, double z)
