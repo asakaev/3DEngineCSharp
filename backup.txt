@@ -1,0 +1,4 @@
+                    // Move
+                    m.points[j].x -= move.x;
+                    m.points[j].y -= move.y;
+                    m.points[j].z -= move.z;

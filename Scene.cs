@@ -10,24 +10,24 @@ namespace Scene3D
         public int objectsCount;
         public int polyCount;
         public int vtxCount;
-        public int activeObject;
+        public int activeObject; // номер активного объекта
         public Vertex scale = new Vertex(1, 1, 1);
         public Vertex rotation = new Vertex(0, 0, 0);
         public Vertex move = new Vertex(0, 0, 0);
         public Camera cam;
-        bool perspective = true;
+        bool perspective = true; // перспективная проекция
 
         public Scene()
         {
             objectsCount = 0;
             polyCount = 0;
             activeObject = -1; // нет активных объектов
-            cam = new Camera(this);
+            cam = new Camera(this); // создаем новую камеру и передаем ей эту сцену
         }
 
         public void AddObject(Model obj)
         {
-            objects.Add(obj);
+            objects.Add(obj); // список и его метод Add, добавление нового элемента
             obj.s = this; // устанавливаем сцену родителем для всех моделей
             objectsCount++;
 
@@ -44,7 +44,9 @@ namespace Scene3D
         public void DrawScene(Rasterizer r)
         {
             DoTransform(); // Пересчет всех координат
-            Projection(r.Width, r.Height);
+
+            // Применение проекции (Либо параллельной, либо перспективной)
+            Projection(r.Width, r.Height); // передаем размеры окна
 
             CColor c = new CColor(78, 201, 176); // green
 
@@ -56,7 +58,7 @@ namespace Scene3D
                     c.G = 201;
                     c.B = 176;
                 }
-                else
+                else // если активен
                 {
                     c.R = 214; // orange
                     c.G = 157;
@@ -151,7 +153,7 @@ namespace Scene3D
             move.z += z;
         }
 
-        public void DoTransform()
+        public void DoTransform() // пересчет всех координат
         {
             for (int i = 0; i < objectsCount; i++) // Операции с моделями
             {
@@ -162,7 +164,7 @@ namespace Scene3D
             cam.MoveRotate();
         }
 
-        public void ScaleRotateMove()
+        public void ScaleRotateMove() // рассчет для сцены
         {
             for (int i = 0; i < objectsCount; i++)
             {
@@ -205,6 +207,7 @@ namespace Scene3D
                     for (int j = 0; j < m.vtxCount; j++)
                     {
                         double k = D / (m.points[j].z + Ofs);
+                        // чем дальше, тем меньше объект
                         m.points[j].x = oX + (m.points[j].x * k);
                         m.points[j].y = oY - (m.points[j].y * k);
                     }

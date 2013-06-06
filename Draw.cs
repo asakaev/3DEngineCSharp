@@ -33,9 +33,11 @@ namespace Scene3D
             // и если цвет отличается
             if ((_x >= 0) && (_y >= 0) && (_x < r.Width) && (_y < r.Height))
             {
+                // с шагом 4, _ — номер строки
                 int idx = (_y * r.Width) * 4 + (_x * 4);
                 if ((r.data[idx] != c.B)) // Только одну компоненту смотрим
                 {
+                    // в альфа — мусор
                     r.data[idx + 2] = c.R; // R
                     r.data[idx + 1] = c.G; // G
                     r.data[idx] = c.B; // B

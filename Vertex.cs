@@ -14,6 +14,7 @@ namespace Scene3D
             zOrg = z = _z;
         }
 
+        // возвращает округленные значения для вывода на экран
         public int GetIntX() { return (int)Math.Round(x); }
         public int GetIntY() { return (int)Math.Round(y); }
         public int GetIntZ() { return (int)Math.Round(z); }

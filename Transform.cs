@@ -4,15 +4,16 @@ namespace Scene3D
 {
     class Transform
     {
+        // принимает вершину и три угла, на которые её нужно повернуть (в градусах)
         public static void RotateVertex(Vertex p, double _x, double _y, double _z)
         {
-            double radX = (Math.PI * _x) / 180;
+            double radX = (Math.PI * _x) / 180; // перевод в радианы
             double radY = (Math.PI * _y) / 180;
             double radZ = (Math.PI * _z) / 180;
 
-            double x = p.x;
-            double y = p.y;
-            double z = p.z;
+            double x = p.x; // временные координаты, что б не перезатирались данные
+            double y = p.y; // последовательно выполняется поворот,
+            double z = p.z; // опираясь на предыдущие шаги
 
             // Поворот относительно оси X
             p.y = (y * Math.Cos(radX)) - (z * Math.Sin(radX));

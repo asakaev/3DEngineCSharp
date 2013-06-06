@@ -10,7 +10,7 @@ namespace Scene3D
 	public partial class Form1 : Form
 	{
 		private System.Timers.Timer fpstimer;
-		private Thread renderthread;
+		private Thread renderthread; // поток для отрисовки
 		private int fps;
         Scene scene = new Scene();
         double mv = 0.4; // для плавающего движения вверх-вниз
@@ -23,8 +23,8 @@ namespace Scene3D
 			InitializeComponent();
             LoadModels();
             //scene.cam.AppendMove(0, 100, -80);
-            //scene.cam.AppendRotate(-60, 0, 0);
-            scene.cam.AppendMove(0, 0, -100);
+            //scene.cam.AppendRotate(0, 0, 0);
+            scene.cam.AppendMove(0, 0, -1000);
 		}
 
 		public void Update(MethodInvoker callback)
@@ -91,7 +91,7 @@ namespace Scene3D
 
                 //if (scene.cam.IsIntersectWith(cube)) { Close(); }
 
-                UpdateKeys();
+                UpdateKeys(); // опрос клавиш
                 scene.DrawScene(razorPainterWFCtl1.RP);
 				razorPainterWFCtl1.RazorPaint();
 			}
@@ -157,14 +157,15 @@ namespace Scene3D
             if (Kb.IsKeyDown('C')) { scene.cam.AppendRotate(1, 0, 0); }
             if (Kb.IsKeyDown('V')) { scene.cam.AppendRotate(-1, 0, 0); }
 
-            if (Kb.IsKeyDown('B')) { scene.cam.AppendRotate(0, 1, 0); }
-            if (Kb.IsKeyDown('N')) { scene.cam.AppendRotate(0, -1, 0); }
+            if (Kb.IsKeyDown('B')) { scene.cam.AppendRotate(0, -1, 0); }
+            if (Kb.IsKeyDown('N')) { scene.cam.AppendRotate(0, 1, 0); }
 
             if (Kb.IsKeyDown('U')) { scene.AppendRotate(0, 1, 0); }
             if (Kb.IsKeyDown('I')) { scene.AppendRotate(0, -1, 0); }
 
             if (Kb.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
             if (Kb.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
+
 
             if (Kb.IsKeyDown('T'))
             {

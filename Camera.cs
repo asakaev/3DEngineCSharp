@@ -10,6 +10,7 @@ namespace Scene3D
 
         public Camera(Scene _s) { s = _s; }
 
+        // Накапливаем поворот
         public void AppendRotate(double x, double y, double z)
         {
             rotation.x += x;
@@ -28,9 +29,9 @@ namespace Scene3D
             double backY = move.y;
             double backZ = move.z;
 
-            move.x += x;
-            move.y += y;
-            move.z += z;
+            move.x += x;// *Math.Cos(rotation.z) * Math.Cos(rotation.y);
+            move.y += y;// *Math.Sin(rotation.z);
+            move.z += z;// *Math.Cos(rotation.z) * Math.Sin(rotation.y);
 
             if (CamInsectWithModels()) // проверка пересечения камеры с моделями
             {
@@ -66,7 +67,8 @@ namespace Scene3D
         {
             bool flag = false;
             int i = 0;
-
+            
+            // если нет пересечения и не обошли все объекты
             while ((!flag) && (i < s.objectsCount))
             {
                 flag = IsIntersectWith(s.objects[i++]);
@@ -76,17 +78,20 @@ namespace Scene3D
             else { return false; }
         }
 
+        // проверка пересечения камеры с одной! моделью
         public bool IsIntersectWith(Model o)
         {
-            double magic = o.distance * 0.8; // не знаю почему 8
+            double minDistance = o.distance * 0.8; // если оставить (* 1), то далеко
+
+            // расстояние между точками (камера и объект)
             double x = Math.Pow((move.x - o.move.x), 2);
             double y = Math.Pow((move.y - o.move.y), 2);
             double z = Math.Pow((move.z - o.move.z), 2);
-
             double distance = Math.Sqrt(x + y + z);
             dis = distance;
 
-            if (distance <= magic) { return true; }
+            // если слишком близко подошли то возвращаем «пересечение»
+            if (distance <= minDistance) { return true; }
             else { return false; }
         }
 

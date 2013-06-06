@@ -2,7 +2,7 @@
 {
     class CColor
     {
-        public byte R, G, B;
+        public byte R, G, B; // от 0 до 255
 
         public CColor(byte _r, byte _g, byte _b)
         {

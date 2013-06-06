@@ -17,14 +17,9 @@ namespace Scene3D
         public Scene s;
         public double distance;
 
-        public Model()
+        public void CheckDistance()
         {
-            CheckCenterAndDistance();
-        }
-
-        public void CheckCenterAndDistance()
-        {
-            double min = 0;
+            double max = 0;
             for (int i = 0; i < vtxCount; i++) // расстояние от центра масс до дальней точки фигуры
             {
                 double length = Math.Sqrt(
@@ -32,9 +27,9 @@ namespace Scene3D
                     Math.Pow((move.y - (scale.y * points[i].y + move.y)), 2) +
                     Math.Pow((move.z - (scale.z * points[i].z + move.z)), 2));
 
-                if (length > min) { min = length; }
+                if (length > max) { max = length; }
             }
-            distance = min;
+            distance = max;
         }
 
         public void AddVertex(double x, double y, double z)
@@ -49,7 +44,7 @@ namespace Scene3D
             polyCount++;
         }
 
-        public void AppendScale(double x, double y, double z)
+        public void AppendScale(double x, double y, double z) // Масштабирование
         {
             scale.x += x;
             scale.y += y;
@@ -75,11 +70,11 @@ namespace Scene3D
             move.z += z;
         }
 
-        public void ScaleRotateMove()
+        public void ScaleRotateMove() // преобразования
         {
             for (int i = 0; i < vtxCount; i++)
             {
-                // Scale
+                // Scale (масштаб)
                 if ((scale.x != 0) && (scale.y != 0) && (scale.z != 0))
                 {
                     points[i].x = points[i].xOrg / scale.x;
@@ -95,7 +90,7 @@ namespace Scene3D
                 points[i].y += move.y;
                 points[i].z += move.z;
             }
-            CheckCenterAndDistance(); // рассчитываем заново центр масс и расстояние внутри модели
+            CheckDistance(); // рассчитываем расстояние внутри модели
         }
     }
 }
