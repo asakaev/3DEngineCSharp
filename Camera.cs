@@ -3,43 +3,44 @@ namespace Scene3D
 {
     class Camera
     {
-        public Vertex rotation = new Vertex(0, 0, 0);
-        public Vertex move = new Vertex(0, 0, 0);
+        public Vertex rotation = new Vertex(0, 0, 0); // куда голова повернута
+        public Vertex direction = new Vertex(0, 0, 0); // куда двигаться
+        public Vertex inWorld = new Vertex(0, 0, 0);    
         Scene s;
-        public double dis;
 
         public Camera(Scene _s) { s = _s; }
 
-        // Накапливаем поворот
-        public void AppendRotate(double x, double y, double z)
+        // Принимает вектор, направление движения (0,0,s) — вперед, s — скорость
+        public void MoveToCamDirection(double x, double y, double z)
         {
-            rotation.x += x;
-            rotation.y += y;
-            rotation.z += z;
+            direction.x = x; direction.y = y; direction.z = z;
+
+            // Оставляем координаты, к которым можно вернуться
+            double backX = inWorld.x;
+            double backY = inWorld.y;
+            double backZ = inWorld.z;
+
+            // Рассчитываем новое положение камеры, учитывая поворот головы
+            Transform.RotateVertex(direction, rotation.x, rotation.y, rotation.z);
+            inWorld.x -= direction.x;
+            inWorld.y -= direction.y;
+            inWorld.z += direction.z;
+
+            if (CamInsectWithModels()) // проверка пересечения камеры с моделями
+            {
+                // если есть пересечение, то откатываемся
+                inWorld.x = backX; inWorld.y = backY; inWorld.z = backZ;        
+            }
+        }
+
+        public void AppendRotate(double x, double y, double z) // Накапливаем поворот
+        {
+            rotation.x += x; rotation.y += y; rotation.z += z;
 
             // проверяем на полный поворот вокруг осей
             if ((rotation.x > 359) || (rotation.x < -359)) { rotation.x = rotation.x % 360; }
             if ((rotation.y > 359) || (rotation.y < -359)) { rotation.y = rotation.y % 360; }
             if ((rotation.z > 359) || (rotation.z < -359)) { rotation.z = rotation.z % 360; }
-        }
-
-        public void AppendMove(double x, double y, double z)
-        {
-            double backX = move.x;
-            double backY = move.y;
-            double backZ = move.z;
-
-            move.x += x;// *Math.Cos(rotation.z) * Math.Cos(rotation.y);
-            move.y += y;// *Math.Sin(rotation.z);
-            move.z += z;// *Math.Cos(rotation.z) * Math.Sin(rotation.y);
-
-            if (CamInsectWithModels()) // проверка пересечения камеры с моделями
-            {
-                move.x = backX;
-                move.y = backY;
-                move.z = backZ;
-            }
-
         }
 
         public void MoveRotate()
@@ -50,9 +51,9 @@ namespace Scene3D
                 for (int j = 0; j < m.vtxCount; j++)
                 {
                     // Move
-                    m.points[j].x -= move.x;
-                    m.points[j].y -= move.y;
-                    m.points[j].z -= move.z;
+                    m.points[j].x -= inWorld.x;
+                    m.points[j].y -= inWorld.y;
+                    m.points[j].z -= inWorld.z;
 
                     // Rotation
                     double xR = rotation.x;
@@ -81,23 +82,17 @@ namespace Scene3D
         // проверка пересечения камеры с одной! моделью
         public bool IsIntersectWith(Model o)
         {
-            double minDistance = o.distance * 0.8; // если оставить (* 1), то далеко
+            double minDistance = o.distance * 0.6; // если оставить (* 1), то далеко
 
             // расстояние между точками (камера и объект)
-            double x = Math.Pow((move.x - o.move.x), 2);
-            double y = Math.Pow((move.y - o.move.y), 2);
-            double z = Math.Pow((move.z - o.move.z), 2);
+            double x = Math.Pow((inWorld.x - o.inWorld.x), 2);
+            double y = Math.Pow((inWorld.y - o.inWorld.y), 2);
+            double z = Math.Pow((inWorld.z - o.inWorld.z), 2);
             double distance = Math.Sqrt(x + y + z);
-            dis = distance;
 
             // если слишком близко подошли то возвращаем «пересечение»
             if (distance <= minDistance) { return true; }
             else { return false; }
-        }
-
-        public string GetDistance()
-        {
-            return Convert.ToString(dis);
         }
     }
 }

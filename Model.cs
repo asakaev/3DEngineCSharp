@@ -13,19 +13,19 @@ namespace Scene3D
         public bool active;
         public Vertex scale = new Vertex(1, 1, 1);
         public Vertex rotation = new Vertex(0, 0, 0);
-        public Vertex move = new Vertex(0, 0, 0);
+        public Vertex inWorld = new Vertex(0, 0, 0);
         public Scene s;
         public double distance;
 
         public void CheckDistance()
         {
             double max = 0;
-            for (int i = 0; i < vtxCount; i++) // расстояние от центра масс до дальней точки фигуры
+            for (int i = 0; i < vtxCount; i++) // расстояние до дальней точки фигуры
             {
                 double length = Math.Sqrt(
-                    Math.Pow((move.x - (scale.x * points[i].x + move.x)), 2) +
-                    Math.Pow((move.y - (scale.y * points[i].y + move.y)), 2) +
-                    Math.Pow((move.z - (scale.z * points[i].z + move.z)), 2));
+                    Math.Pow((inWorld.x - (scale.x * points[i].x + inWorld.x)), 2) +
+                    Math.Pow((inWorld.y - (scale.y * points[i].y + inWorld.y)), 2) +
+                    Math.Pow((inWorld.z - (scale.z * points[i].z + inWorld.z)), 2));
 
                 if (length > max) { max = length; }
             }
@@ -46,16 +46,12 @@ namespace Scene3D
 
         public void AppendScale(double x, double y, double z) // Масштабирование
         {
-            scale.x += x;
-            scale.y += y;
-            scale.z += z;
+            scale.x += x; scale.y += y; scale.z += z; 
         }
 
         public void AppendRotate(double x, double y, double z)
         {
-            rotation.x += x;
-            rotation.y += y;
-            rotation.z += z;
+            rotation.x += x; rotation.y += y; rotation.z += z;
 
             // проверяем на полный поворот вокруг осей
             if ((rotation.x > 359) || (rotation.x < -359)) { rotation.x = rotation.x % 360; }
@@ -65,9 +61,7 @@ namespace Scene3D
 
         public void AppendMove(double x, double y, double z)
         {
-            move.x += x;
-            move.y += y;
-            move.z += z;
+            inWorld.x += x; inWorld.y += y; inWorld.z += z; 
         }
 
         public void ScaleRotateMove() // преобразования
@@ -86,9 +80,9 @@ namespace Scene3D
                 Transform.RotateVertex(points[i], rotation.x, rotation.y, rotation.z);
 
                 // Move
-                points[i].x += move.x;
-                points[i].y += move.y;
-                points[i].z += move.z;
+                points[i].x += inWorld.x;
+                points[i].y += inWorld.y;
+                points[i].z += inWorld.z;
             }
             CheckDistance(); // рассчитываем расстояние внутри модели
         }

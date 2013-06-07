@@ -13,9 +13,9 @@ namespace Scene3D
 		private Thread renderthread; // поток для отрисовки
 		private int fps;
         Scene scene = new Scene();
-        double mv = 0.4; // для плавающего движения вверх-вниз
+        //double mv = 0.4; // для плавающего движения вверх-вниз
         //double y; // для поворотов
-        Model ufo;
+        //Model ufo;
         Model cube;
 
 		public Form1()
@@ -24,7 +24,7 @@ namespace Scene3D
             LoadModels();
             //scene.cam.AppendMove(0, 100, -80);
             //scene.cam.AppendRotate(0, 0, 0);
-            scene.cam.AppendMove(0, 0, -1000);
+            scene.cam.MoveToCamDirection(0, 0, -1000);
 		}
 
 		public void Update(MethodInvoker callback)
@@ -59,7 +59,6 @@ namespace Scene3D
                     Text += ", Objects: " + Convert.ToString(scene.objectsCount);
                     Text += ", FPS: " + fps;
                     Text += scene.GetActiveName();
-                    Text += ", DIS: " + scene.cam.GetDistance();
                     fps = 0;
 				});
 			};
@@ -100,9 +99,9 @@ namespace Scene3D
 
         void LoadModels() // добавляем модели и их начальные значения
         {
-            //cube = ObjLoader.Load("cube.obj", 300);
+            //cube = ObjLoader.Load("cube.obj", 100);
             //scene.AddObject(cube);
-            //cube.AppendMove(0, 50, 0); // в метрах
+            //cube.AppendMove(0, 150, 0); // в метрах
 
             //ufo = ObjLoader.Load("ufo.obj", 2);
             //scene.AddObject(ufo);
@@ -112,60 +111,68 @@ namespace Scene3D
             scene.AddObject(rassv);
             rassv.AppendMove(0, 0, 100);
 
-            //Model liga = ObjLoader.Load("liga.obj", 50 / 18);
-            //scene.AddObject(liga);
-            //liga.AppendMove(95, 0, 100);
+            Model liga = ObjLoader.Load("liga.obj", 50 / 18);
+            scene.AddObject(liga);
+            liga.AppendMove(95, 0, 100);
 
-            //Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
-            //scene.AddObject(mir);
-            //mir.AppendMove(150, 0, 100);
+            Model mir = ObjLoader.Load("Mir.obj", 43.4 / 4.4);
+            scene.AddObject(mir);
+            mir.AppendMove(150, 0, 100);
 
-            //Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
-            //scene.AddObject(ammo);
-            //ammo.AppendRotate(0, 54, 0);
-            //ammo.AppendMove(178, 0, -110);
+            Model ammo = ObjLoader.Load("amm.obj", 59 / 2.5);
+            scene.AddObject(ammo);
+            ammo.AppendRotate(0, 54, 0);
+            ammo.AppendMove(178, 0, -110);
 
-            //Model busStop1 = ObjLoader.Load("ost.obj", 15);
-            //scene.AddObject(busStop1);
-            //busStop1.AppendMove(50, 0, -30);
+            Model busStop1 = ObjLoader.Load("ost.obj", 15);
+            scene.AddObject(busStop1);
+            busStop1.AppendMove(50, 0, -30);
 
-            //Model busStop2 = ObjLoader.Load("ost.obj", 15);
-            //scene.AddObject(busStop2);
-            //busStop2.AppendMove(110, 0, 80);
-            //busStop2.AppendRotate(0, 180, 0);
+            Model busStop2 = ObjLoader.Load("ost.obj", 15);
+            scene.AddObject(busStop2);
+            busStop2.AppendMove(110, 0, 80);
+            busStop2.AppendRotate(0, 180, 0);
 
-            //Model obraz = ObjLoader.Load("obr.obj", 55 / 4);
-            //scene.AddObject(obraz);
-            //obraz.AppendMove(-140, 0, 76);
+            Model obraz = ObjLoader.Load("obr.obj", 55 / 4);
+            scene.AddObject(obraz);
+            obraz.AppendMove(-140, 0, 76);
 
-            //Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
-            //scene.AddObject(gogol);
-            //gogol.AppendMove(-200, 0, -155);
+            Model gogol = ObjLoader.Load("gogol.obj", 55 / 4);
+            scene.AddObject(gogol);
+            gogol.AppendMove(-200, 0, -155);
 
-            //Model tree = ObjLoader.Load("Tree.obj", 2);
-            //scene.AddObject(tree);
-            //tree.AppendMove(-20, 0, -40);
+            Model tree = ObjLoader.Load("Tree.obj", 2);
+            scene.AddObject(tree);
+            tree.AppendMove(-20, 0, -40);
         }
 
         void UpdateKeys()
         {
-            if (Kb.IsKeyDown('W')) { scene.cam.AppendMove(0, 0, 5); }
-            if (Kb.IsKeyDown('A')) { scene.cam.AppendMove(-5, 0, 0); }
-            if (Kb.IsKeyDown('S')) { scene.cam.AppendMove(0, 0, -5); }
-            if (Kb.IsKeyDown('D')) { scene.cam.AppendMove(5, 0, 0); }
+            double mv = 2;
+            double rot = 0.3;
 
-            if (Kb.IsKeyDown('C')) { scene.cam.AppendRotate(1, 0, 0); }
-            if (Kb.IsKeyDown('V')) { scene.cam.AppendRotate(-1, 0, 0); }
+            // Вперед-назад
+            if (Kb.IsKeyDown('W')) { scene.cam.MoveToCamDirection(0,0,mv); }
+            if (Kb.IsKeyDown('S')) { scene.cam.MoveToCamDirection(0, 0, -mv); }
 
-            if (Kb.IsKeyDown('B')) { scene.cam.AppendRotate(0, -1, 0); }
-            if (Kb.IsKeyDown('N')) { scene.cam.AppendRotate(0, 1, 0); }
+            // Приставные шаги
+            if (Kb.IsKeyDown('A')) { scene.cam.MoveToCamDirection(mv, 0, 0); }
+            if (Kb.IsKeyDown('D')) { scene.cam.MoveToCamDirection(-mv, 0, 0); }
+
+            // Повороты головы
+            if (Kb.IsKeyDown('Q')) { scene.cam.AppendRotate(0, -rot, 0); }
+            if (Kb.IsKeyDown('E')) { scene.cam.AppendRotate(0, rot, 0); }
+
+            // Джет пак
+            if (Kb.IsKeyDown('1')) { scene.cam.MoveToCamDirection(0, mv, 0); }
+            if (Kb.IsKeyDown('2')) { scene.cam.MoveToCamDirection(0, -mv, 0); }
+            
+            // Наклоны головы
+            if (Kb.IsKeyDown('R')) { scene.cam.AppendRotate(rot, 0, 0); }
+            if (Kb.IsKeyDown('F')) { scene.cam.AppendRotate(-rot, 0, 0); }
 
             if (Kb.IsKeyDown('U')) { scene.AppendRotate(0, 1, 0); }
             if (Kb.IsKeyDown('I')) { scene.AppendRotate(0, -1, 0); }
-
-            if (Kb.IsKeyDown('1')) { scene.cam.AppendMove(0, -10, 0); }
-            if (Kb.IsKeyDown('2')) { scene.cam.AppendMove(0, 10, 0); }
-
 
             if (Kb.IsKeyDown('T'))
             {
@@ -175,13 +182,13 @@ namespace Scene3D
                 }
             }
 
-            if (Kb.IsKeyDown('F'))
-            {
-                if (scene.activeObject != -1)
-                {
-                    scene.objects[scene.activeObject].AppendMove(-10, 0, 0);
-                }
-            }
+            //if (Kb.IsKeyDown('F'))
+            //{
+            //    if (scene.activeObject != -1)
+            //    {
+            //        scene.objects[scene.activeObject].AppendMove(-10, 0, 0);
+            //    }
+            //}
 
             if (Kb.IsKeyDown('G'))
             {
@@ -199,13 +206,13 @@ namespace Scene3D
                 }
             }
 
-            if (Kb.IsKeyDown('R'))
-            {
-                if (scene.activeObject != -1)
-                {
-                    scene.objects[scene.activeObject].AppendMove(0, -10, 0);
-                }
-            }
+            //if (Kb.IsKeyDown('R'))
+            //{
+            //    if (scene.activeObject != -1)
+            //    {
+            //        scene.objects[scene.activeObject].AppendMove(0, -10, 0);
+            //    }
+            //}
 
             if (Kb.IsKeyDown('Y'))
             {
@@ -215,14 +222,14 @@ namespace Scene3D
                 }
             }
 
-            if (Kb.IsKeyDown('E'))
-            {
-                scene.ActivateNext();
-            }
-            if (Kb.IsKeyDown('Q'))
-            {
-                scene.ActivatePrev();
-            }
+            //if (Kb.IsKeyDown('E'))
+            //{
+            //    scene.ActivateNext();
+            //}
+            //if (Kb.IsKeyDown('Q'))
+            //{
+            //    scene.ActivatePrev();
+            //}
 
             if (Kb.IsKeyDown('X')) // увеличение объекта
             {
@@ -258,6 +265,5 @@ namespace Scene3D
                 }
             }
         }
-
 	}
 }

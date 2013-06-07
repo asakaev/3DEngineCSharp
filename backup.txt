@@ -2,3 +2,15 @@
                     m.points[j].x -= move.x;
                     m.points[j].y -= move.y;
                     m.points[j].z -= move.z;
+
+		public void NewMoveZ()
+        {
+            double d = 2;
+
+            double alpha = (Math.PI * rotation.y) / 180;
+            double x = d * Math.Sin(alpha);
+            double z = d * Math.Cos(alpha);
+
+            move.x += x;
+            move.z += z;
+        }

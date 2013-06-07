@@ -29,8 +29,7 @@ namespace Scene3D
 
         public static void SetPixel(Rasterizer r, CColor c, int _x, int _y)
         {
-            // если мы не за пределами
-            // и если цвет отличается
+            // если мы не за пределами И если цвет отличается
             if ((_x >= 0) && (_y >= 0) && (_x < r.Width) && (_y < r.Height))
             {
                 // с шагом 4, _ — номер строки
