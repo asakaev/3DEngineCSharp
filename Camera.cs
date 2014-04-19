@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Scene3D
+namespace OBJViewer
 {
     class Camera
     {
@@ -93,6 +93,13 @@ namespace Scene3D
             // если слишком близко подошли то возвращаем «пересечение»
             if (distance <= minDistance) { return true; }
             else { return false; }
+        }
+
+        public void ResetCam()
+        {
+            rotation.x = 0; rotation.y = 0; rotation.z = 0;
+            direction.x = 0; direction.y = 0; direction.z = 0;
+            inWorld.x = 0; inWorld.y = 0; inWorld.z = 0;
         }
     }
 }

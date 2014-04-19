@@ -1,13 +1,13 @@
-﻿using Scene3D;
+﻿using OBJViewer;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace FastDrawWF
+namespace OBJViewer
 {
-	public partial class FastDrawCtrl : UserControl
+	partial class FastDrawCtrl : UserControl
 	{
 		#region Component Designer generated code
 		private System.ComponentModel.IContainer components = null;
@@ -48,6 +48,10 @@ namespace FastDrawWF
 		private readonly HandleRef hDCRef;
 		private readonly Graphics hDCGraphics;
 		public readonly Rasterizer RP;
+        Form fbase;
+        public Camera cam;
+        int x = 0;
+        int y = 0;
 
 		/// <summary>
 		/// root Bitmap
@@ -64,8 +68,11 @@ namespace FastDrawWF
 		/// </summary>
 		public readonly object RazorLock = new object();
 
-		public FastDrawCtrl()
+        public FastDrawCtrl(Form _fbase, Camera _cam)
 		{
+            fbase = _fbase;
+            cam = _cam;
+
 			InitializeComponent();
 
 			this.MinimumSize = new Size(1, 1);
@@ -101,5 +108,23 @@ namespace FastDrawWF
 		{
 			RP.Paint(hDCRef, RazorBMP);
 		}
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            // Вправо
+            if (e.Button == MouseButtons.Left)
+            {
+                if (x < e.X) { cam.AppendRotate(0, 0.2, 0); }
+                else { cam.AppendRotate(0, -0.2, 0); }
+
+                if (y < e.Y) { cam.AppendRotate(-0.2, 0, 0); }
+                else { cam.AppendRotate(0.2, 0, 0); }
+            }
+            x = e.X;
+            y = e.Y;
+            
+        }
 	}
 }

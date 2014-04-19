@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Scene3D
+namespace OBJViewer
 {
     class Vertex // Координаты точки
     {

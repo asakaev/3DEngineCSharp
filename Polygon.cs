@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Scene3D
+namespace OBJViewer
 {
     class Polygon // Triangle (faces, грани)
     {

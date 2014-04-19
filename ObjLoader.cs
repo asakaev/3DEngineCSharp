@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace Scene3D
+namespace OBJViewer
 {
     class ObjLoader
     {

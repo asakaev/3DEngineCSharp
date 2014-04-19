@@ -1,4 +1,4 @@
-﻿namespace Scene3D
+﻿namespace OBJViewer
 {
     class CColor
     {

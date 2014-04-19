@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Scene3D
+namespace OBJViewer
 {
     class Scene
     {

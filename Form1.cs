@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
-namespace Scene3D
+namespace OBJViewer
 {
 	public partial class Form1 : Form
 	{
@@ -13,18 +14,19 @@ namespace Scene3D
 		private Thread renderthread; // поток для отрисовки
 		private int fps;
         Scene scene = new Scene();
-        //double mv = 0.4; // для плавающего движения вверх-вниз
-        //double y; // для поворотов
-        //Model ufo;
-        Model cube;
+        Image w, a, s, d, rotate;
+        Image wOn, aOn, sOn, dOn, rotateOn;
+        bool isRotating = false;
+        string modelToLoad;
 
 		public Form1()
 		{
 			InitializeComponent();
+            this.Start(); // loading painter control
+            LoadImages();
+            this.BackColor = Color.FromArgb(30, 30, 30);
             LoadModels();
-            //scene.cam.AppendMove(0, 100, -80);
-            //scene.cam.AppendRotate(0, 0, 0);
-            scene.cam.MoveToCamDirection(0, 0, -1000);
+            scene.cam.MoveToCamDirection(0, 0, -1000); 
 		}
 
 		public void Update(MethodInvoker callback)
@@ -56,7 +58,6 @@ namespace Scene3D
                     Text += " v" + Application.ProductVersion;
                     Text += ", Poly: " + Convert.ToString(scene.polyCount);
                     Text += ", Points: " + Convert.ToString(scene.vtxCount);
-                    Text += ", Objects: " + Convert.ToString(scene.objectsCount);
                     Text += ", FPS: " + fps;
                     Text += scene.GetActiveName();
                     fps = 0;
@@ -82,31 +83,21 @@ namespace Scene3D
 		{
 			lock (razorPainterWFCtl1.RazorLock)
 			{
-                //ufo.AppendRotate(0.3, 0.3, 0.3);
-                //ufo.AppendMove(0, mv, 0);
-                //if ((ufo.move.y > 100) || (ufo.move.y < 49)) { mv *= -1; }
-                //scene.AppendRotate(0, 0.01, 0);
-                //if (true) { Close(); }
-
-                //if (scene.cam.IsIntersectWith(cube)) { Close(); }
+                if (isRotating)
+                {
+                    scene.AppendRotate(0, 0.05, 0);
+                }
 
                 UpdateKeys(); // опрос клавиш
                 scene.DrawScene(razorPainterWFCtl1.RP);
 				razorPainterWFCtl1.RazorPaint();
+                CheckMenuItem();
 			}
 			fps++;
 		}
 
         void LoadModels() // добавляем модели и их начальные значения
         {
-            //cube = ObjLoader.Load("cube.obj", 100);
-            //scene.AddObject(cube);
-            //cube.AppendMove(0, 150, 0); // в метрах
-
-            //ufo = ObjLoader.Load("ufo.obj", 2);
-            //scene.AddObject(ufo);
-            //ufo.AppendMove(0, 50, 0); // в метрах
-
             Model rassv = ObjLoader.Load("Rassv.obj", 75 / 4.5);
             scene.AddObject(rassv);
             rassv.AppendMove(0, 0, 100);
@@ -182,14 +173,6 @@ namespace Scene3D
                 }
             }
 
-            //if (Kb.IsKeyDown('F'))
-            //{
-            //    if (scene.activeObject != -1)
-            //    {
-            //        scene.objects[scene.activeObject].AppendMove(-10, 0, 0);
-            //    }
-            //}
-
             if (Kb.IsKeyDown('G'))
             {
                 if (scene.activeObject != -1)
@@ -206,14 +189,6 @@ namespace Scene3D
                 }
             }
 
-            //if (Kb.IsKeyDown('R'))
-            //{
-            //    if (scene.activeObject != -1)
-            //    {
-            //        scene.objects[scene.activeObject].AppendMove(0, -10, 0);
-            //    }
-            //}
-
             if (Kb.IsKeyDown('Y'))
             {
                 if (scene.activeObject != -1)
@@ -221,15 +196,6 @@ namespace Scene3D
                     scene.objects[scene.activeObject].AppendMove(0, 10, 0);
                 }
             }
-
-            //if (Kb.IsKeyDown('E'))
-            //{
-            //    scene.ActivateNext();
-            //}
-            //if (Kb.IsKeyDown('Q'))
-            //{
-            //    scene.ActivatePrev();
-            //}
 
             if (Kb.IsKeyDown('X')) // увеличение объекта
             {
@@ -264,6 +230,197 @@ namespace Scene3D
                     scene.objects[scene.activeObject].AppendRotate(0, -3, 0);
                 }
             }
+        }
+
+        // Buttons actions
+        #region
+
+        // W
+        private void button1_Click(object sender, EventArgs e)
+        {
+            scene.cam.MoveToCamDirection(0, 0, 40);
+        }
+
+        private void button1_MouseDown(object sender, MouseEventArgs e)
+        {
+            button1.Image = wOn;
+        }
+
+        private void button1_MouseUp(object sender, MouseEventArgs e)
+        {
+            button1.Image = w;
+        }
+
+        // A
+        private void button2_Click(object sender, EventArgs e)
+        {
+            scene.cam.MoveToCamDirection(40, 0, 0);
+        }
+
+        private void button2_MouseDown(object sender, MouseEventArgs e)
+        {
+            button2.Image = aOn;
+        }
+
+        private void button2_MouseUp(object sender, MouseEventArgs e)
+        {
+            button2.Image = a;
+        }
+
+        // S
+        private void button3_Click(object sender, EventArgs e)
+        {
+            scene.cam.MoveToCamDirection(0, 0, -40);
+        }
+
+        private void button3_MouseDown(object sender, MouseEventArgs e)
+        {
+            button3.Image = sOn;
+        }
+
+        private void button3_MouseUp(object sender, MouseEventArgs e)
+        {
+            button3.Image = s;
+        }
+
+        // D
+        private void button4_Click(object sender, EventArgs e)
+        {
+            scene.cam.MoveToCamDirection(-40, 0, 0);
+        }
+
+        private void button4_MouseDown(object sender, MouseEventArgs e)
+        {
+            button4.Image = dOn;
+        }
+
+        private void button4_MouseUp(object sender, MouseEventArgs e)
+        {
+            button4.Image = d;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (isRotating)
+            {
+                isRotating = false;
+                button5.Image = rotate;
+            }
+            else
+            {
+                isRotating = true;
+                button5.Image = rotateOn;
+            }
+        }
+
+        #endregion
+
+        void LoadImages()
+        {
+            w = Image.FromFile(@"..\res\w.bmp");
+            wOn = Image.FromFile(@"..\res\wOn.bmp");
+            button1.Image = w;
+            button1.TabStop = false;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.FlatAppearance.BorderSize = 0;
+
+            a = Image.FromFile(@"..\res\a.bmp");
+            aOn = Image.FromFile(@"..\res\aOn.bmp");
+            button2.Image = a;
+            button2.TabStop = false;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.FlatAppearance.BorderSize = 0;
+
+            s = Image.FromFile(@"..\res\s.bmp");
+            sOn = Image.FromFile(@"..\res\sOn.bmp");
+            button3.Image = s;
+            button3.TabStop = false;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.FlatAppearance.BorderSize = 0;
+
+            d = Image.FromFile(@"..\res\d.bmp");
+            dOn = Image.FromFile(@"..\res\dOn.bmp");
+            button4.Image = d;
+            button4.TabStop = false;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.FlatAppearance.BorderSize = 0;
+
+            rotate = Image.FromFile(@"..\res\rotate.bmp");
+            rotateOn = Image.FromFile(@"..\res\rotateOn.bmp");
+            button5.Image = rotate;
+            button5.TabStop = false;
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.FlatAppearance.BorderSize = 0;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Select OBJ model";
+            fdlg.InitialDirectory = @"..\";
+            fdlg.Filter = "OBJ files (*.obj)|*.obj";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                modelToLoad = fdlg.SafeFileName;
+            }
+
+            scene = new Scene();
+            razorPainterWFCtl1.cam = this.scene.cam;
+            scene.cam.MoveToCamDirection(0, 0, -1000);
+            Model newModel = ObjLoader.Load(modelToLoad, 50);  
+            scene.AddObject(newModel);
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scene = new Scene();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void turnRotationOnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!isRotating)
+            {
+                isRotating = true;
+                button5.Image = rotateOn;
+                turnRotationOnToolStripMenuItem.Text = "Turn Rotation Off";
+            }
+            else
+            {
+                isRotating = false;
+                button5.Image = rotate;
+                turnRotationOnToolStripMenuItem.Text = "Turn Rotation On";
+            }
+        }
+
+        void CheckMenuItem()
+        {
+            if (isRotating)
+            {
+                turnRotationOnToolStripMenuItem.Text = "Turn Rotation Off";
+            }
+            else
+            {
+                turnRotationOnToolStripMenuItem.Text = "Turn Rotation On";
+            }
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("notepad.exe", @"..\res\help.txt");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string caption = "About " + Application.ProductName + " v" + Application.ProductVersion;
+            string message = "Super Turbo Information";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            DialogResult result;
+            result = MessageBox.Show(message, caption, buttons);
         }
 	}
 }
